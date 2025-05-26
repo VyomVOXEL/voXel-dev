@@ -37,7 +37,7 @@ fi
 
 if [ "$1" = "--setup-devenv" ] || [ "$2" = "--setup-devenv" ]; then
     echo Setup git modules...
-    
+    git config --global --add safe.directory /webodm
     git submodule update --init
     
     echo Setup npm dependencies...
@@ -100,14 +100,14 @@ congrats(){
         echo "Congratulations! └@(･◡･)@┐"
         echo ==========================
         echo -e "\033[39m"
-        echo "If there are no errors, WebODM should be up and running!"
+        echo "If there are no errors, voXel should be up and running!"
     else    
         echo -e "\033[93m"
         echo "Something doesn't look right! ¯\_(ツ)_/¯"
         echo "The server returned a status code of $status when we tried to reach it."
         echo ==========================
         echo -e "\033[39m"
-        echo "Check if WebODM is running, maybe we tried to reach it too soon."
+        echo "Check if voXel is running, maybe we tried to reach it too soon."
     fi
 
     echo -e "\033[93m"

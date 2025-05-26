@@ -130,9 +130,6 @@
 
                 {% is_dev_mode as dev_mode %}
                 {% if dev_mode and user.is_superuser %}
-                <li>
-                    <a href="/dev-tools/"><i class="fa fa-bug fa-fw"></i> {% trans 'Developer Tools' %}</a>
-                </li>
                 {% endif %}
 
             </ul>
