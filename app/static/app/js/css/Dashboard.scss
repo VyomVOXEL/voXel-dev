@@ -1,0 +1,70 @@
+#dashboard-app {
+  .row {
+    &.no-margin {
+      margin: 0;
+    }
+  }
+
+  .progress {
+    height: 20px;
+    margin-bottom: 4px;
+    .progress-bar {
+      font-size: 14px;
+      line-height: 18px;
+    }
+  }
+
+  .add-button,
+  .list-group {
+    margin-bottom: 8px;
+  }
+
+  .dashboard-container {
+    padding: 24px;
+    background: #f9faff;
+    min-height: 100vh;
+    font-family: "Inter", sans-serif;
+  }
+
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .welcome-message {
+    font-size: 24px;
+    font-weight: 600;
+    color: #222;
+  }
+
+  .add-project-button {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(90deg, #7b2ff7 0%, #f107a3 100%);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .add-project-button:hover {
+    opacity: 0.9;
+  }
+
+  .add-project-button i {
+    margin-right: 8px;
+  }
+
+  .project-list-wrapper {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  }
+}
