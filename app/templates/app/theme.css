@@ -116,10 +116,6 @@ a, a:hover, a:focus{
     color: inherit;
 }
 
-#navbar-top ul#side-menu a:hover, #navbar-top ul#side-menu a.active:hover{
-	background-color: {{ theme_button_primary }};
-	color: {{ theme_secondary }};
-}
 
 .btn-primary, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary{
 	background-color: {{ theme_button_primary }};
@@ -190,7 +186,7 @@ a, a:hover, a:focus{
 
 /* Header background */
 #navbar-top{
-	background-color: {{ theme_header_background }};
+	background-color: #f9faff;
 }
 
 /* Header primary */

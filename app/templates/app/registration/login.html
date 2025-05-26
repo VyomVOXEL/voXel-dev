@@ -3,94 +3,133 @@
 {% load settings %}
 
 {% block registration_content %}
-    {% if form.errors %}
-        <div class="alert alert-warning">
-            <p><strong>{% trans "Invalid credentials." %}</strong> {% trans "Note that both fields are case-sensitive." %}</p>
-        </div>
-    {% endif %}
+{% if form.errors %}
+  <div class="alert alert-warning">
+    <p><strong>{% trans "Invalid credentials." %}</strong> {% trans "Note that both fields are case-sensitive." %}</p>
+  </div>
+{% endif %}
 
-    {% is_single_user_mode as autologin %}
-    {% has_external_auth as ext_auth %}
-    {% reset_password_link as reset_pwd_link %}
+{% is_single_user_mode as autologin %}
+{% has_external_auth as ext_auth %}
+{% reset_password_link as reset_pwd_link %}
 
-    {% if autologin %}
-        <script>location.href='/';</script>
-    {% else %}
-    <form id="loginForm" {% if ext_auth %} style="display: none" {% endif %} action="{% url 'login' %}" method="post" class="form-horizontal" role="form">{% csrf_token %}
+{% if autologin %}
+<script>location.href='/';</script>
+{% else %}
+
+<div class="container-fluid d-flex p-0" style="height: 100vh; overflow: hidden;">
+  <!-- Left Side: Sign In Form -->
+  <div class="col-md-5 d-flex flex-column justify-content-center align-items-center p-5 bg-white">
+    <div class="w-100" style="max-width: 400px;">
+      <h2 class="mb-4 font-weight-bold">Sign In</h2>
+
+      <form id="loginForm" {% if ext_auth %}style="display: none"{% endif %} action="{% url 'login' %}" method="post">{% csrf_token %}
         {% for field in form %}
-            {% include 'registration/form_field.html' %}
+          <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+              <div class="text-danger">{{ field.errors }}</div>
+            {% endif %}
+          </div>
         {% endfor %}
+
         <input type="hidden" name="next" value="" id="loginNext" />
         <script>
-            var loginNext = document.getElementById("loginNext");
-            var value = new URLSearchParams(new URL(window.location.href).search).get('next');
-            if (value) loginNext.value = value;
+          var loginNext = document.getElementById("loginNext");
+          var value = new URLSearchParams(new URL(window.location.href).search).get('next');
+          if (value) loginNext.value = value;
         </script>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-default">{% trans 'Log in' %}</button>
-            </div>
-            <div class="top-buffer col-sm-offset-2 col-sm-10">
-                {% if reset_pwd_link != '' %}
-                <p><a href="{{ reset_pwd_link }}">{% trans "Forgot your password?" %}</a></p>
-                {% else %}
-                <p><a href="javascript:toggleForgotPasswordHint();">{% trans "Forgot your password?" %}</a></p>
-                <script>function toggleForgotPasswordHint(){ $("#forgotPasswordHint").toggle(); }</script>
-                <div id="forgotPasswordHint" style="display: none; font-size: 90%; padding: 4px;" class="theme-secondary">
-                    You can reset the administrator password by running the following command:
-                    <span class="theme-background-highlight" style="padding: 4px; margin: 8px 0; display: inline-block;">./webodm.sh resetadminpassword yournewpass</span><br/>
-                    If you used WebODM Manager to launch WebODM, find the "Reset Password" button within the maintenance panel or within one of WebODM Manager menus.
-                </div>
-                {% endif %}
-            </div>
+
+        <button type="submit" class="btn btn-primary w-100">Sign In</button>
+
+        <div class="mt-3 text-right">
+          {% if reset_pwd_link != '' %}
+            <a href="{{ reset_pwd_link }}">Forgot password?</a>
+          {% else %}
+            <a href="#" data-toggle="modal" data-target="#passwordResetModal">Forgot password?</a>
+          {% endif %}
         </div>
-    </form>
 
-    {% if ext_auth %}
-    <div class="text-center" id="authLoading">
-        <i class="fa fa-spin fa-circle-notch fa-spin fa-fw fa-2x"></i>
-    </div>
-    <script>
-    function getAutoLoginCookie() {
-        var value = "; " + document.cookie;
-        var parts = value.split("; autologin=");
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
-    function delAutoLoginCookie() {
-        var domain = getAutoLoginCookie();
-        document.cookie = 'autologin=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Domain=' + domain + ';';
-    }
-    function showLoginForm(){
-        $("#authLoading").hide();
-        $("#loginForm").show();
-    }
-    $(function(){
-        if (getAutoLoginCookie() !== undefined){
-            $.ajax({
-                url: "/api/external-token-auth/",
-                type: "POST",
-                xhrFields: {
-                    withCredentials: true
-                },
-            }).done(function(res){
-                delAutoLoginCookie();
-                if (res.redirect){
-                    location.href = res.redirect;
-                }else{
-                    if (res.error) console.error(res.error);
-                    showLoginForm();
-                }
-            }).fail(function(){
-                delAutoLoginCookie();
-                showLoginForm();
-                console.error("Auto login failed");
-            });
-        }else{
-            showLoginForm();
+      </form>
+
+      {% if ext_auth %}
+      <div class="text-center" id="authLoading">
+        <i class="fa fa-spin fa-circle-notch fa-2x"></i>
+      </div>
+      <script>
+        function getAutoLoginCookie() {
+          var value = "; " + document.cookie;
+          var parts = value.split("; autologin=");
+          if (parts.length === 2) return parts.pop().split(';').shift();
         }
-    });
-    </script>
-    {% endif %}
+        function delAutoLoginCookie() {
+          var domain = getAutoLoginCookie();
+          document.cookie = 'autologin=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Domain=' + domain + ';';
+        }
+        function showLoginForm(){
+          document.getElementById("authLoading").style.display = 'none';
+          document.getElementById("loginForm").style.display = 'block';
+        }
+        $(function(){
+          if (getAutoLoginCookie() !== undefined){
+            $.ajax({
+              url: "/api/external-token-auth/",
+              type: "POST",
+              xhrFields: { withCredentials: true }
+            }).done(function(res){
+              delAutoLoginCookie();
+              if (res.redirect) location.href = res.redirect;
+              else {
+                if (res.error) console.error(res.error);
+                showLoginForm();
+              }
+            }).fail(function(){
+              delAutoLoginCookie();
+              showLoginForm();
+              console.error("Auto login failed");
+            });
+          } else {
+            showLoginForm();
+          }
+        });
+      </script>
+      {% endif %}
 
-    {% endif %}
+    </div>
+  </div>
+
+  <!-- Right Side: Image -->
+  <div class="col-md-7 d-none d-md-flex h-100 justify-content-end p-0">
+    <img src="/static/app/img/login.png" alt="Login Image" 
+         class="h-100" 
+         style="object-fit: contain; max-width: 100%;">
+  </div>
+</div>
+
+<!-- Password Reset Modal -->
+{% if reset_pwd_link == '' %}
+<div class="modal fade" id="passwordResetModal" tabindex="-1" role="dialog" aria-labelledby="passwordResetModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="passwordResetModalLabel">Reset Password Instructions</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>You can reset the administrator password by running:</p>
+        <code>./voxel.sh resetadminpassword yournewpass</code>
+        <p class="mt-2">Or use voXel Manager's maintenance panel.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% endif %}
 {% endblock %}

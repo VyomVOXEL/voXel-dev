@@ -2,24 +2,7 @@
 <html lang="en">
 <head>
     {% load i18n cache static settings plugins %}
-    <!-- 
-    WebODM - User-friendly, commercial grade software for processing aerial imagery.
-    Copyright (C) 2020  WebODM Authors
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as
-    published by the Free Software Foundation, either version 3 of the
-    License, or (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-    -->
-    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -61,17 +44,7 @@
     </style>
     {% endcache %}
 
-    {% is_desktop_mode as desktop_mode %}
-    {% if desktop_mode %}
-    <!-- Hide top nav bar -->
-    <style type="text/css">
-        .navbar-header { display: none; }
-        #navbar-top .navbar-default.sidebar{ top: 0; position: fixed; margin-top: 1px; }
-        #navbar-top { height: 0; min-height: 0; }
-        .map-view { height: calc(100% + 30px) !important; }
-        .model-view { height: calc(100% + 50px) !important; }
-    </style>
-    {% endif %}
+
 
     <style type="text/css">
         {{ SETTINGS.theme.css|safe }}
@@ -89,23 +62,11 @@
     <div id="wrapper">
         {{ SETTINGS.theme.html_before_header|safe }}
 
-        <nav id="navbar-top" class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <nav id="navbar-top" class="" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+
                 {% block navbar-top-links %}{% endblock %}
-            
-                {% if '/public/task/' in request.path and request.user.is_anonymous and SETTINGS.organization_website %}
-                    <a class="navbar-brand" href="{{ SETTINGS.organization_website }}"><img src="{% settings_image_url 'app_logo_36' %}" alt="{{ SETTINGS.app_name }}" /></a>
-                    <a class="navbar-link" href="{{ SETTINGS.organization_website }}"><p class="navbar-text">{{ SETTINGS.app_name }}</p></a>
-                {% else %}
-                    <a class="navbar-brand" href="/"><img src="{% settings_image_url 'app_logo_36' %}" alt="{{ SETTINGS.app_name }}" /></a>
-                    <a class="navbar-link" href="/"><p class="navbar-text">{{ SETTINGS.app_name }}</p></a>
-                {% endif %}
+
             </div>
 
             {% block navbar-sidebar %}{% endblock %}
