@@ -62,12 +62,9 @@
     <div id="wrapper">
         {{ SETTINGS.theme.html_before_header|safe }}
 
-        <nav id="navbar-top" class="" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
+        <nav id="" class="" role="navigation" style="margin-bottom: 0">
 
-                {% block navbar-top-links %}{% endblock %}
-
-            </div>
+            {% block navbar-top-links %}{% endblock %}
 
             {% block navbar-sidebar %}{% endblock %}
         </nav>

@@ -2,12 +2,8 @@
 {% load i18n %}
 {% load settings %}
 
+
 {% block content %}
-	<!--[if lte IE 8]>
-		<div class="alert alert-warning alert-dismissible">
-            WebODM cannot be used with this version of Internet Explorer. Could you please upgrade <a href="https://www.microsoft.com/en-us/download/internet-explorer.aspx">Internet Explorer</a> to the latest version or use <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a>?
-        </div>
-	<![endif]-->
 
 	{% if no_processingnodes %}
 		{% include "quota.html" %}
@@ -28,8 +24,10 @@
 			{% trans 'Select Images and GCP' as upload_images %}
 
 		{% endif %}
-		
+	
+
 		<div id="dashboard-app" data-dashboard
+	
 			{% for key, value in params %}
 				data-{{key}}="{{value}}"
 			{% endfor %}
@@ -48,6 +46,7 @@
 				<div class="placeholder-item pulse border shimmer" style="height: 100px; margin-top: 16px; width: 100%;"></div>
 				<div class="placeholder-item pulse border shimmer" style="height: 100px; margin-top: 16px; width: 100%;"></div>
 			</div>
+			
 		</div>
 		
 	{% endif %}
