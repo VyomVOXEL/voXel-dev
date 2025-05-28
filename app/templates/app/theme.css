@@ -356,3 +356,80 @@ pre.prettyprint:focus,
 	animation-timing-function: linear;
 	animation-name: placeHolderPulse;
 }
+
+
+/* Typography and heading */
+.sign-in-section h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2D2E41;
+}
+
+/* Labels */
+.sign-in-section label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2D2E41;
+}
+
+/* Input fields */
+.sign-in-section input[type="email"],
+.sign-in-section input[type="password"],
+.sign-in-section input[type="text"],
+.sign-in-section input[type="hidden"] {
+  font-size: 1.1rem;
+  height: 50px;
+  border: 1px solid #D6D7E3;
+  border-radius: 10px;
+  padding: 0 1rem;
+  color: #2D2E41;
+  background-color: #F7F8FA;
+  transition: border-color 0.3s ease;
+}
+
+.sign-in-section input:focus {
+  border-color: #9C6CF3;
+  box-shadow: 0 0 0 3px rgba(156, 108, 243, 0.15);
+  outline: none;
+}
+
+/* Sign In button */
+.sign-in-section .btn-primary {
+  background-color: #9C6CF3;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.9rem;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sign-in-section .btn-primary:hover {
+  background-color: #7C4FD4;
+  box-shadow: 0 8px 20px rgba(156, 108, 243, 0.3);
+}
+
+/* Text links */
+.sign-in-section a {
+  color: #9C6CF3;
+  font-weight: 500;
+}
+
+.sign-in-section a:hover {
+  color: #7C4FD4;
+  text-decoration: underline;
+}
+
+/* Error messages */
+.sign-in-section .text-danger {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #E63946;
+}
+
+/* Checkbox and form text */
+.sign-in-section .form-check-label,
+.sign-in-section .form-text {
+  color: #6B6C7E;
+  font-size: 0.95rem;
+}
