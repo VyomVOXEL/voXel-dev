@@ -49,12 +49,13 @@
     </ul>
     {% endif %}
 {% endblock %}
+
 {% block navbar-sidebar %}
     <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse collapse">
             <ul class="nav" id="side-menu">
                 <li>
-                    <a href="/dashboard/"><i class="fa fa-tachometer-alt fa-fw"></i> {% trans 'Dashboard' %}</a>
+                    <a href="/dashboard/"><img src="/static/app/img/Dashboard.png" alt="Dashboard" class="nav-icon"> {% trans 'Dashboard' %}</a>
                 </li>
                 {% load processingnode_extras plugins %}
                 {% can_view_processing_nodes as view_nodes %}
@@ -64,7 +65,14 @@
                 {% get_plugins_main_menus as plugin_menus %}
                 {% for menu in plugin_menus %}
                     <li>
-                        <a href="{{menu.link}}"><i class="{{menu.css_icon}}"></i> {{menu.label}}{% if menu.has_submenu %}<span class="fa arrow"></span>{% endif %}</a>
+                        <a href="{{menu.link}}">
+                            {% if forloop.first %}
+                                <img src="/static/app/img/GCPInterface.png" alt="{{menu.label}}" class="nav-icon">
+                            {% else %}
+                                <img src="/static/app/img/Diagnostic.png" alt="{{menu.label}}" class="nav-icon">
+                            {% endif %}
+                            {{menu.label}}{% if menu.has_submenu %}<span class="fa arrow"></span>{% endif %}
+                        </a>
 
                         {% if menu.has_submenu %}
                             <ul class="nav nav-second-level">
@@ -80,7 +88,7 @@
 
                 {% if view_nodes %}
                 <li>
-                    <a href="#"><i class="fa fa-wrench fa-fw"></i> {% trans 'Processing Nodes' %}<span class="fa arrow"></span></a>
+                    <a href="#"><img src="/static/app/img/ProcessingNode.png" alt="Processing Nodes" class="nav-icon"> {% trans 'Processing Nodes' %}<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         {% for node in nodes %}
                         <li>
@@ -100,7 +108,7 @@
 
                 {% if user.is_staff %}
                 <li>
-                    <a href="#"><i class="fa fa-cogs fa-fw"></i> {% trans 'Administration' %}<span class="fa arrow"></span></a>
+                    <a href="#"><img src="/static/app/img/Administration.png" alt="Administration" class="nav-icon"> {% trans 'Administration' %}<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         {% is_single_user_mode as hide_users %}
                         {% if not hide_users %}
