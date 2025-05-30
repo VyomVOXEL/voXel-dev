@@ -30,16 +30,16 @@ ul#side-menu.nav a,
 .tooltip .tooltip-inner{
 	background-color: {{ theme_primary }};
 }
-.tooltip.left .tooltip-arrow{ border-left-color: {{ theme_primary }}; }
-.tooltip.top .tooltip-arrow{ border-top-color: {{ theme_primary }}; }
-.tooltip.bottom .tooltip-arrow{ border-bottom-color: {{ theme_primary }}; }
-.tooltip.right .tooltip-arrow{ border-right-color: {{ theme_primary }}; }
 
 .theme-fill-primary{
     fill: {{ theme_primary }};
 }
 .theme-stroke-primary{
     stroke: {{ theme_primary }};
+}
+
+.contenr {
+	background-color: #f4f7fe;
 }
 
 /* Secondary */
@@ -53,6 +53,11 @@ body,
 .theme-secondary
 {
 	background-color: {{ theme_secondary }};
+}
+
+.page-wrapper,
+{
+	background-color: #f4f7fe;
 }
 
 .tooltip > .tooltip-inner{
@@ -103,18 +108,8 @@ a, a:hover, a:focus{
     background-color: {{ theme_tertiary }};
 }
 
-/* Button primary */
-#navbar-top .navbar-top-links a:hover,
-#navbar-top .navbar-top-links a:focus,
-#navbar-top .navbar-top-links .open > a{
-    background-color: {{ theme_button_primary }};
-    color: {{ theme_secondary }};
-}
 
-#navbar-top ul#side-menu a:focus{
-    background-color: inherit;
-    color: inherit;
-}
+
 
 
 .btn-primary, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary{
@@ -184,34 +179,9 @@ a, a:hover, a:focus{
     color: {{ theme_button_primary }};
 }
 
-/* Header background */
-#navbar-top{
-	background-color: #f9faff;
-}
 
-/* Header primary */
-.navbar-default .navbar-link,
-#navbar-top .navbar-top-links a.dropdown-toggle,
-#navbar-top .navbar-top-links a.nav-link,
-#navbar-top .navbar-text{
-	color: {{ theme_header_primary }};
-}
 
-.navbar-default .navbar-toggle .icon-bar{
-	background-color: {{ theme_header_primary }};
-}
-.navbar-default .navbar-toggle:hover .icon-bar,
-.navbar-default .navbar-toggle:active .icon-bar,
-.navbar-default .navbar-toggle:focus .icon-bar{
-	background-color: {{ theme_secondary }};
-}
 
-.navbar-default .navbar-link:hover,
-#navbar-top .navbar-top-links a.dropdown-toggle:hover,
-#navbar-top .navbar-top-links a.nav-link:hover,
-#navbar-top .navbar-top-links .dropdown.open a.dropdown-toggle{
-	color: {{ theme_secondary }};
-}
 
 /* Border */
 .sidebar ul li,

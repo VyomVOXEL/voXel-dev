@@ -51,19 +51,19 @@
         {{ SETTINGS.theme.css|safe }}
     </style>
 </head>
-<body data-admin-utc-offset="{% now "Z" %}">
+<body data-admin-utc-offset="{% now "Z" %}" >
 {% if desktop_mode %}
-    <div class='topLine' style="background: #e7e7e7; position: absolute; left: 0; right: 0; height: 1px;"></div>
+    <div class='topLine' style="background: #f4f7fe; position: absolute; left: 0; right: 0; height: 1px;"></div>
 {% endif %}
 
 {% block body %}
     <!--[if lt IE 8]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <div id="wrapper">
+    <div id="wrapper" style="background: #f4f7fe;">
         {{ SETTINGS.theme.html_before_header|safe }}
 
-        <nav id="" class="" role="navigation" style="margin-bottom: 0">
+        <nav style="margin-bottom: 0">
 
             {% block navbar-top-links %}{% endblock %}
 

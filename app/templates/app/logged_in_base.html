@@ -4,44 +4,23 @@
 {% block navbar-top-links %}
     {% is_single_user_mode as single_user %}
     {% if not single_user %}
-    <ul class="nav navbar-top-links navbar-right">
+    <ul class="navbar-top-links" style="padding: 10px;">
         <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+            <a class="" data-toggle="dropdown" href="#" style="padding: 10px 15px;">
+                <img src="/static/app/img/User.png" class="user-icon" alt="User" style="height:24px;width:24px;border-radius:50%;vertical-align:middle;" />
             </a>
             <ul class="dropdown-menu dropdown-user">
-                <li class="user-profile">
-                    <div class="info-item">
-                        {% blocktrans with user=user.username %}Hello, {{ user }}!{% endblocktrans %}<br/>
-                        <span class="email">{{ user.email }}</span>
-                    </div>
+                <li>
+                    <a href="/logout/">
+                        <i class="fa fa-sign-out-alt fa-fw"></i> {% trans 'Logout' %}
+                    </a>
                 </li>
-                {% if user.profile.has_quota %}
-                    <li class="divider"></li>
-                    {% with tot_quota=user.profile.quota used_quota=user.profile.used_quota_cached %}
-                    {% percentage used_quota tot_quota as perc_quota %}
-                    {% percentage used_quota tot_quota 100 as bar_width %}
-                    <li>
-                        <div class="info-item quotas">
-                            {% with usage=perc_quota|floatformat:0 used=used_quota|disk_size total=tot_quota|disk_size %}
-                            <i class="fa fa-database fa-fw"></i> {% blocktrans %}{{used}} of {{total}} used{% endblocktrans %}
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-{% if perc_quota <= 100 %}success{% else %}warning{% endif %} active" style="width: {{ bar_width }}%">
-                                    {{usage}}%
-                                </div>
-                            </div>
-                            {% endwith %}
-                        </div>
-                    </li>
-                    {% endwith %}
-                {% endif %}
-                <li class="divider"></li>
-                <li><a href="/logout/"><i class="fa fa-sign-out-alt fa-fw"></i> {% trans 'Logout' %}</a></li>
             </ul>
         </li>
     </ul>
     {% endif %}
 {% endblock %}
+
 
 {% block navbar-sidebar %}
     <style>
@@ -81,6 +60,22 @@
         margin-bottom: 3px;
         padding-left: 18px !important;
         padding-right: 18px !important;
+    }
+    /* === Sidebar should span full height and stay above all === */
+    .navbar-default.sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 220px;
+        z-index: 1050;
+        background: #fff;
+        box-shadow: 2px 0 8px rgba(0,0,0,0.06);
+        overflow-y: auto;
+    }
+    /* Prevent main content from being overlapped */
+    .main-content {
+        margin-left: 220px;
     }
     </style>
     <div class="navbar-default sidebar" role="navigation">
@@ -132,9 +127,7 @@
                         {% endif %}
                     </ul>
                 </li>
-                {% endif %}
-
-                {% if user.is_staff %}
+                {% endif %}{% if user.is_staff %}
                 <li>
                     <a href="#"><img src="/static/app/img/Administration.png" alt="Administration" class="nav-icon"> {% trans 'Administration' %}</a>
                     <ul class="nav nav-second-level">
@@ -207,8 +200,9 @@
     <!-- /.navbar-static-side -->
 {% endblock %}
 
+
 {% block page-wrapper %}
-<div id="page-wrapper">
+<div id="page-wrapper" style="background-color: #f4f7fe;">
     <section class="main">
         <div class="content">
             {{ SETTINGS.theme.html_after_header|safe }}
