@@ -224,7 +224,7 @@ footer,
 .modal-footer,
 .dropdown-menu
 {
-	border-color: {{ theme_border }};
+	border-color: #ffffff;
 }
 .dropdown-menu .divider{
 	background-color: {{ theme_border }};

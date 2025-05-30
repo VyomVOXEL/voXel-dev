@@ -3,7 +3,6 @@
 
 {% block navbar-top-links %}
     {% is_single_user_mode as single_user %}
-
     {% if not single_user %}
     <ul class="nav navbar-top-links navbar-right">
         <li class="dropdown">
@@ -19,11 +18,9 @@
                 </li>
                 {% if user.profile.has_quota %}
                     <li class="divider"></li>
-
                     {% with tot_quota=user.profile.quota used_quota=user.profile.used_quota_cached %}
                     {% percentage used_quota tot_quota as perc_quota %}
                     {% percentage used_quota tot_quota 100 as bar_width %}
-                    
                     <li>
                         <div class="info-item quotas">
                             {% with usage=perc_quota|floatformat:0 used=used_quota|disk_size total=tot_quota|disk_size %}
@@ -36,35 +33,69 @@
                             {% endwith %}
                         </div>
                     </li>
-
                     {% endwith %}
                 {% endif %}
                 <li class="divider"></li>
-                <li><a href="/logout/"><i class="fa fa-sign-out-alt fa-fw"></i> {% trans 'Logout' %}</a>
-                </li>
+                <li><a href="/logout/"><i class="fa fa-sign-out-alt fa-fw"></i> {% trans 'Logout' %}</a></li>
             </ul>
-            <!-- /.dropdown-user -->
         </li>
-        <!-- /.dropdown -->
     </ul>
     {% endif %}
 {% endblock %}
 
 {% block navbar-sidebar %}
+    <style>
+    /* Modern pill-style active highlight for sidebar */
+    .sidebar-nav .nav > li.active > a,
+    .sidebar-nav .nav > li.is-active > a,
+    .navbar-default.sidebar .nav > li.active > a,
+    .navbar-default.sidebar .nav > li.is-active > a {
+        background-color: #2563eb !important;
+        color: #fff !important;
+        border-radius: 999px;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        box-shadow: 0 2px 8px rgba(37,99,235,0.06);
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        transition: background 0.2s, color 0.2s;
+    }
+    .sidebar-nav .nav > li.active > a .nav-icon,
+    .sidebar-nav .nav > li.is-active > a .nav-icon,
+    .navbar-default.sidebar .nav > li.active > a .nav-icon,
+    .navbar-default.sidebar .nav > li.is-active > a .nav-icon {
+        filter: brightness(0) invert(1);
+    }
+    .sidebar-nav .nav-second-level > li.active > a,
+    .sidebar-nav .nav-second-level > li.is-active > a,
+    .navbar-default.sidebar .nav-second-level > li.active > a,
+    .navbar-default.sidebar .nav-second-level > li.is-active > a {
+        background-color: #e0edfd !important;
+        color: #2563eb !important;
+        border-radius: 999px;
+        margin-left: 24px;
+        margin-right: 10px;
+        margin-top: 3px;
+        margin-bottom: 3px;
+        padding-left: 18px !important;
+        padding-right: 18px !important;
+    }
+    </style>
     <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse collapse">
             <ul class="nav" id="side-menu">
-                <li>
+                <li class="{% if request.path == '/dashboard/' %}active{% endif %}">
                     <a href="/dashboard/"><img src="/static/app/img/Dashboard.png" alt="Dashboard" class="nav-icon"> {% trans 'Dashboard' %}</a>
                 </li>
                 {% load processingnode_extras plugins %}
                 {% can_view_processing_nodes as view_nodes %}
                 {% can_add_processing_nodes as add_nodes %}
                 {% get_visible_processing_nodes as nodes %}
-
                 {% get_plugins_main_menus as plugin_menus %}
                 {% for menu in plugin_menus %}
-                    <li>
+                    <li class="{% if request.path == menu.link %}active{% endif %}">
                         <a href="{{menu.link}}">
                             {% if forloop.first %}
                                 <img src="/static/app/img/GCPInterface.png" alt="{{menu.label}}" class="nav-icon">
@@ -73,12 +104,11 @@
                             {% endif %}
                             {{menu.label}}{% if menu.has_submenu %}<span class="fa arrow"></span>{% endif %}
                         </a>
-
                         {% if menu.has_submenu %}
                             <ul class="nav nav-second-level">
-                            {% for menu in menu.submenu %}
-                                <li>
-                                    <a href="{{menu.link}}"><i class="{{menu.css_icon}}"></i> {{menu.label}}{% if menu.has_submenu %}<span class="fa arrow"></span>{% endif %}</a>
+                            {% for submenu in menu.submenu %}
+                                <li class="{% if request.path == submenu.link %}active{% endif %}">
+                                    <a href="{{submenu.link}}"><i class="{{submenu.css_icon}}"></i> {{submenu.label}}{% if submenu.has_submenu %}<span class="fa arrow"></span>{% endif %}</a>
                                 </li>
                             {% endfor %}
                             </ul>
@@ -91,18 +121,16 @@
                     <a href="#"><img src="/static/app/img/ProcessingNode.png" alt="Processing Nodes" class="nav-icon"> {% trans 'Processing Nodes' %}</a>
                     <ul class="nav nav-second-level">
                         {% for node in nodes %}
-                        <li>
+                        <li class="{% if request.path == node.get_absolute_url %}active{% endif %}">
                             <a href="{% url 'processing_node' node.id %}"><span class="fa fa-laptop {% if not node.is_online %}theme-color-button-danger{% endif %}"></span> {{node}}</a>
                         </li>
                         {% endfor %}
-
                         {% if add_nodes %}
                         <li>
                             <a href="{% url 'admin:nodeodm_processingnode_add' %}"><span class="fa fa-plus-circle"></span> {% trans 'Add New' %}</a>
                         </li>
                         {% endif %}
                     </ul>
-                    <!-- /.nav-second-level -->
                 </li>
                 {% endif %}
 
@@ -112,38 +140,68 @@
                     <ul class="nav nav-second-level">
                         {% is_single_user_mode as hide_users %}
                         {% if not hide_users %}
-                        <li>
+                        <li class="{% if request.path == '/admin/auth/user/' %}active{% endif %}">
                             <a href="/admin/auth/user/"><i class="fa fa-user fa-fw"></i> {% trans 'Accounts' %}</a>
                         </li>
-                        <li>
+                        <li class="{% if request.path == '/admin/auth/group/' %}active{% endif %}">
                             <a href="/admin/auth/group/"><i class="fa fa-users fa-fw"></i> {% trans 'Groups' %}</a>
                         </li>
                         {% endif %}
-
-                        <li>
+                        <li class="{% if request.path == admin_app_setting_url %}active{% endif %}">
                             <a href="{% url 'admin:app_setting_change' SETTINGS.id %}"><i class="fa fa-magic fa-fw"></i> {% trans 'Brand' %}</a>
                         </li>
-                        <li>
+                        <li class="{% if request.path == admin_app_theme_url %}active{% endif %}">
                             <a href="{% url 'admin:app_theme_change' SETTINGS.theme.id %}"><i class="fa fa-paint-brush fa-fw"></i> {% trans 'Theme' %}</a>
                         </li>
-                        <li>
+                        <li class="{% if request.path == '/admin/app/plugin/' %}active{% endif %}">
                             <a href="/admin/app/plugin/"><i class="fa fa-plug fa-fw"></i> {% trans 'Plugins' %}</a>
                         </li>
-                        <li>
+                        <li class="{% if request.path == '/admin/app/' %}active{% endif %}">
                             <a href="/admin/app/"><i class="fa fa-cog fa-fw"></i> {% trans 'Application' %}</a>
                         </li>
                     </ul>
                 </li>
                 {% endif %}
-
                 {% is_dev_mode as dev_mode %}
                 {% if dev_mode and user.is_superuser %}
                 {% endif %}
-
             </ul>
         </div>
         <script src="{% static 'app/js/vendor/metisMenu.min.js' %}"></script>
         <script>$('#side-menu').metisMenu();</script>
+        <!-- Highlight only one menu item at a time -->
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Handle top-level menu clicks
+            document.querySelectorAll('#side-menu > li > a').forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    // Remove active from all top-level and submenu items
+                    document.querySelectorAll('#side-menu li.active').forEach(function(item) {
+                        item.classList.remove('active');
+                    });
+                    // Add active to the clicked parent
+                    this.parentElement.classList.add('active');
+                });
+            });
+
+            // Handle submenu clicks
+            document.querySelectorAll('#side-menu .nav-second-level > li > a').forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    // Remove active from all submenu and parent items
+                    document.querySelectorAll('#side-menu li.active').forEach(function(item) {
+                        item.classList.remove('active');
+                    });
+                    // Add active to the clicked submenu
+                    this.parentElement.classList.add('active');
+                    // Also highlight the parent menu
+                    var parentMenu = this.closest('ul.nav-second-level').parentElement;
+                    if (parentMenu.tagName === 'LI') {
+                        parentMenu.classList.add('active');
+                    }
+                });
+            });
+        });
+        </script>
         <!-- /.sidebar-collapse -->
     </div>
     <!-- /.navbar-static-side -->
@@ -154,7 +212,6 @@
     <section class="main">
         <div class="content">
             {{ SETTINGS.theme.html_after_header|safe }}
-
             {% block messages %}
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }} alert-dismissible">
@@ -163,7 +220,6 @@
                     </div>
                 {% endfor %}
             {% endblock %}
-
             {% block content %}{% endblock %}
         </div>
     </section>
