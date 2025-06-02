@@ -55,11 +55,6 @@ body,
 	background-color: {{ theme_secondary }};
 }
 
-.page-wrapper,
-{
-	background-color: #f4f7fe;
-}
-
 .tooltip > .tooltip-inner{
 	color: {{ theme_secondary }};
 }

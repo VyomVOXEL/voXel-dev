@@ -1,0 +1,183 @@
+html, body, section.main, .content, #wrapper, #page-wrapper {
+  height: auto;
+}
+
+#page-wrapper {
+  margin-top: 1px;
+  padding-bottom: 8px;
+}
+
+[data-mapview] {
+  height: calc(100vh - 100px);
+  height: calc(100dvh - 100px);
+}
+
+#public-wrapper {
+  margin-left: 12px;
+  margin-right: 12px;
+  position: relative;
+  top: -14px;
+}
+#public-wrapper .map-view .map-type-selector {
+  top: 20px;
+}
+
+#iframe .map-view {
+  height: 100%;
+}
+#iframe .map-view .map-type-selector {
+  z-index: 1000;
+  position: absolute;
+  float: none;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+#iframe .map-view .switchModeButton {
+  bottom: 22px;
+}
+#iframe .map-view .opacity-slider {
+  bottom: 10px;
+}
+#iframe [data-mapview], #iframe .model-view {
+  height: 100vh;
+  height: 100dvh;
+}
+
+ul#side-menu.nav a {
+  color: #111;
+  word-break: break-all;
+}
+
+.content {
+  padding-top: 8px;
+}
+.content h1, .content h2, .content h3, .content h4, .content h5 {
+  padding-top: 4px;
+  margin-top: 0;
+}
+.content h3 {
+  font-size: 24px;
+}
+
+.top-buffer {
+  margin-top: 15px;
+}
+
+.navbar-default.sidebar {
+  padding-top: 80px;
+}
+
+.alert {
+  margin-bottom: 10px;
+  background-color: #fff;
+  border-width: 2px;
+  color: #000;
+}
+.alert .close {
+  opacity: 0.6;
+}
+.alert .close:hover, .alert .close:focus {
+  color: #000;
+  opacity: 1;
+}
+
+.modal-dialog, .modal {
+  z-index: 999999;
+}
+
+.modal-body {
+  max-height: calc(100vh - 220px);
+  max-height: calc(100dvh - 220px);
+  overflow-y: auto;
+}
+
+table.table-first-col-bold td:first-child {
+  font-weight: bold;
+}
+
+table.processing-node-info {
+  table-layout: fixed;
+}
+table.processing-node-info tr:first-child td:first-child {
+  width: 30%;
+}
+
+button i.glyphicon {
+  margin-right: 4px;
+}
+
+.dropdown-menu > li > a {
+  padding-left: 10px;
+  color: #222 !important;
+}
+.dropdown-menu > li > a .fa, .dropdown-menu > li > a .far, .dropdown-menu > li > a .fas, .dropdown-menu > li > a .fab, .dropdown-menu > li > a .glyphicon {
+  margin-right: 4px;
+}
+
+/* This is to make the Header and navigation more mobile friendly */
+.navbar-toggle {
+  position: relative;
+  float: right;
+  margin-right: 15px;
+  padding: 9px 10px;
+  margin-top: 7px;
+  margin-bottom: 5px;
+}
+
+.navbar-header {
+  height: 50px;
+}
+
+.navbar-right {
+  clear: none !important;
+  height: 50px;
+}
+
+.dropdown {
+  float: right;
+}
+
+.navbar-brand {
+  position: absolute;
+  top: 0px;
+}
+
+.navbar-text {
+  position: absolute;
+  top: 0px;
+  left: 50px;
+}
+
+footer {
+  font-size: 80%;
+  height: 36px;
+  border-top: 1px solid #efefef;
+  text-align: center;
+  padding: 8px;
+}
+
+.list-group-item {
+  background-color: inherit;
+  border-top-width: 0px;
+}
+.list-group-item:first-child {
+  border-top-width: 1px;
+}
+
+.full-height {
+  height: calc(100vh - 110px);
+  height: calc(100dvh - 110px);
+  padding-bottom: 12px;
+}
+
+.floatfix {
+  clear: both;
+}
+
+.model-title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
