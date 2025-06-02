@@ -189,7 +189,7 @@ footer,
 .modal-footer,
 .dropdown-menu
 {
-	border-color: #ffffff;
+	border-color: #f4f7fe;
 }
 .dropdown-menu .divider{
 	background-color: {{ theme_border }};

@@ -52,15 +52,13 @@
     </style>
 </head>
 <body data-admin-utc-offset="{% now "Z" %}" >
-{% if desktop_mode %}
-    <div class='topLine' style="background: #f4f7fe; position: absolute; left: 0; right: 0; height: 1px;"></div>
-{% endif %}
+
 
 {% block body %}
     <!--[if lt IE 8]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <div id="wrapper" style="background: #f4f7fe;">
+    <div style="background: #f4f7fe;">
         {{ SETTINGS.theme.html_before_header|safe }}
 
         <nav style="margin-bottom: 0">
