@@ -1,17 +1,53 @@
-.asset-download-buttons{
+.asset-download-buttons {
     display: inline-block;
-    button{
-        margin-right: 0 !important;
-        i{
-            left: 2px;
-        }
+  
+    button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #1878FF;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0 12px 0 16px;
+      height: 34px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: none;
+      transition: background 0.2s;
+      margin-right: 0 !important;
+  
+      &:hover,
+      &:focus {
+        background: #0f5ed7;
+        outline: none;
+      }
+  
+      i {
+        margin-right: 8px;
+        font-size: 20px;
+        position: relative;
+        left: 2px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+  
+      .arrow {
+        margin-left: 10px;
+        font-size: 16px;
+        vertical-align: middle;
+        display: inline-block;
+      }
     }
-
-    &.btn-group{
-        button{
-            i{
-                left: auto;
-            }
+  
+    &.btn-group {
+      button {
+        i {
+          left: auto;
         }
+      }
     }
-}
+  }
+  

@@ -107,18 +107,48 @@ a, a:hover, a:focus{
 
 
 
-.btn-primary, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary{
-	background-color: {{ theme_button_primary }};
-	border-color: {{ theme_button_primary }};
-	color: {{ theme_secondary }};
+.btn-primary,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+	background: #1878FF;
+	color: #fff;
+	display: inline-flex;              /* Changed from flex to inline-flex */
+	align-items: center;
+	justify-content: center;           /* Ensures proper centering */
+	border: 1px solid #1878FF;         /* Correct border property */
+	border-radius: 999px;              /* Fully rounded button */
+	padding: 0 16px;                   /* Adjusted padding for better spacing */
+	height: 34px;                      /* Increased height for better proportions */
+	line-height: 1;                    /* Ensures vertical centering */
+	font-family: 'DM Sans', sans-serif;
+	font-size: 14px;                   /* Slightly increased font size */
+	font-weight: 500;
+	cursor: pointer;
+	box-shadow: none;
+	transition: background 0.2s;
+	margin-right: 8px;                 /* Adds spacing between buttons */
+	vertical-align: middle;            /* Helps with vertical alignment */
 }
 
-.btn-primary:hover, .btn-primary.active:hover, .open>.dropdown-toggle.btn-primary:hover,
-.btn-primary:active, .btn-primary.active:active, .open>.dropdown-toggle.btn-primary:active,
-.btn-primary:focus, .btn-primary.active:focus, .open>.dropdown-toggle.btn-primary:focus,
-.btn-primary[disabled]:hover, .btn-primary.active[disabled]:hover, .open>.dropdown-toggle.btn-primary[disabled]:hover,
-.btn-primary[disabled]:focus, .btn-primary.active[disabled]:focus, .open>.dropdown-toggle.btn-primary[disabled]:focus,
-.btn-primary[disabled]:active, .btn-primary.active[disabled]:active, .open>.dropdown-toggle.btn-primary[disabled]:active{
+.btn-primary:hover,
+.btn-primary.active:hover,
+.open > .dropdown-toggle.btn-primary:hover,
+.btn-primary:active,
+.btn-primary.active:active,
+.open > .dropdown-toggle.btn-primary:active,
+.btn-primary:focus,
+.btn-primary.active:focus,
+.open > .dropdown-toggle.btn-primary:focus,
+.btn-primary[disabled]:hover,
+.btn-primary.active[disabled]:hover,
+.open > .dropdown-toggle.btn-primary[disabled]:hover,
+.btn-primary[disabled]:focus,
+.btn-primary.active[disabled]:focus,
+.open > .dropdown-toggle.btn-primary[disabled]:focus,
+.btn-primary[disabled]:active,
+.btn-primary.active[disabled]:active,
+.open > .dropdown-toggle.btn-primary[disabled]:active {
     background-color: {% scalebyiv theme_button_primary 0.90 %};
     border-color: {% scalebyiv theme_button_primary 0.90 %};
     color: {{ theme_secondary }};
@@ -180,17 +210,19 @@ a, a:hover, a:focus{
 
 /* Border */
 .sidebar ul li,
-.project-list-item,
+.project-list-item {
+	border-color: #FFFFFF;
+}
 #page-wrapper,
 table-bordered>thead>tr>th, .table-bordered>thead>tr>th, table-bordered>tbody>tr>th, .table-bordered>tbody>tr>th, table-bordered>tfoot>tr>th, .table-bordered>tfoot>tr>th, table-bordered>thead>tr>td, .table-bordered>thead>tr>td, table-bordered>tbody>tr>td, .table-bordered>tbody>tr>td, table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>td,
 footer,
 .modal-content,
 .modal-header,
 .modal-footer,
-.dropdown-menu
-{
+.dropdown-menu {
 	border-color: #f4f7fe;
 }
+
 .dropdown-menu .divider{
 	background-color: {{ theme_border }};
 }
@@ -206,7 +238,7 @@ footer,
 .table-striped>tbody>tr:nth-of-type(odd),
 select.form-control option[disabled],
 .theme-background-highlight{
-	background-color: {{ theme_highlight }};
+	background-color: #FFFFFF;
 }
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus{

@@ -19,6 +19,9 @@
     <link href="{% static 'app/css/metisMenu.min.css' %}" rel="stylesheet">
     <link href="{% static 'app/css/sb-admin-2.css' %}" rel="stylesheet">
 
+    <!-- DM Sans Google Fonts link -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     {% block extra-headers %}{% endblock %}
 
     <script src="{% static 'app/js/vendor/modernizr-2.8.3.min.js' %}"></script>
@@ -45,9 +48,11 @@
     </style>
     {% endcache %}
 
-
-
     <style type="text/css">
+        /* Set DM Sans as the default font for the whole app */
+        body {
+            font-family: 'DM Sans', sans-serif;
+        }
         {{ SETTINGS.theme.css|safe }}
     </style>
 </head>
