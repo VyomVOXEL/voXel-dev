@@ -652,28 +652,38 @@ class ProjectListItem extends React.Component {
             deleteAction={this.hasPermission("delete") ? this.handleDelete : undefined}
             />
         : ""}
+          <div className="row no-margin">
+              <ErrorMessage bind={[this, 'error']} />
+              <div className="project-buttons">
+              {this.hasPermission("add") ? 
 
-        <div className="row no-margin">
-          <ErrorMessage bind={[this, 'error']} />
-          <div className="btn-group project-buttons">
-            {this.hasPermission("add") ? 
-              <div className={"asset-download-buttons btn-group " + (this.state.upload.uploading ? "hide" : "")}>
-                <button type="button" 
-                      className="btn btn-primary btn-sm"
-                      onClick={this.handleUpload}
-                      ref={this.setRef("uploadButton")}>
-                  <i className="glyphicon glyphicon-upload"></i>
-                  <span className="hidden-xs">{_("Select Images and GCP")}</span>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+
+                <div className={"asset-upload-buttons" + (this.state.upload.uploading ? "hide" : "")}>
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-sm"
+                    onClick={this.handleUpload}
+                    ref={this.setRef("uploadButton")}
+                  >
+                    <i className="glyphicon glyphicon-upload"></i>
+                    <span className="hidden-xs">{_("Select Images and GCP")}</span>
+                  </button>
+                  {this.state.buttons.map((button, i) => (
+                    <React.Fragment key={i}>{button}</React.Fragment>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-primary btn-sm"
+                  onClick={this.handleImportTask}
+                >
+                  <i className="glyphicon glyphicon-import"></i>
+                  <span className="hidden-xs">{_("Import Assets")}</span>
                 </button>
-                <button type="button" 
-                      className="btn btn-default btn-sm"
-                      onClick={this.handleImportTask}>
-                  <i className="glyphicon glyphicon-import"></i> <span className="hidden-xs">{_("Import")}</span>
-                </button>
-                {this.state.buttons.map((button, i) => <React.Fragment key={i}>{button}</React.Fragment>)}
               </div>
-            : ""}
 
+              : ""}
             <button disabled={this.state.upload.error !== ""} 
                     type="button"
                     className={"btn btn-danger btn-sm " + (!this.state.upload.uploading ? "hide" : "")} 

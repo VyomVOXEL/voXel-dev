@@ -129,6 +129,7 @@ a, a:hover, a:focus{
 	transition: background 0.2s;
 	margin-right: 8px;                 /* Adds spacing between buttons */
 	vertical-align: middle;            /* Helps with vertical alignment */
+	gap: 8px;                        /* Adds space between icon and text */
 }
 
 .btn-primary:hover,
