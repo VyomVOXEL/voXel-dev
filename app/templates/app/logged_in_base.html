@@ -37,8 +37,8 @@
         margin-top: 4px;
         margin-bottom: 4px;
         box-shadow: 0 2px 8px rgba(37,99,235,0.06);
-        padding-left: 20px !important;
-        padding-right: 20px !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
         transition: background 0.2s, color 0.2s;
     }
     .sidebar-nav .nav > li.active > a .nav-icon,
@@ -52,7 +52,7 @@
     .navbar-default.sidebar .nav-second-level > li.active > a,
     .navbar-default.sidebar .nav-second-level > li.is-active > a {
         background-color: #e0edfd !important;
-        color: #2563eb !important;
+        color: #1878FF !important;
         border-radius: 999px;
         margin-left: 24px;
         margin-right: 10px;
@@ -116,44 +116,45 @@
 
                 {% if view_nodes %}
                 <li>
-                    <a href="#"><img src="/static/app/img/ProcessingNode.png" alt="Processing Nodes" class="nav-icon"> {% trans 'Processing Nodes' %}</a>
+                    <a href="#">
+                        <img src="/static/app/img/ProcessingNode.png" alt="Processing Nodes" class="nav-icon">
+                        {% trans 'Processing Nodes' %}
+                        <span class="fa fa-chevron-down" style="font-size: 0.8em; margin-left: 6px; vertical-align: middle;"></span>
+                    </a>
                     <ul class="nav nav-second-level">
                         {% for node in nodes %}
                         <li class="{% if request.path == node.get_absolute_url %}active{% endif %}">
-                            <a href="{% url 'processing_node' node.id %}"><span class="fa fa-laptop {% if not node.is_online %}theme-color-button-danger{% endif %}"></span> {{node}}</a>
+                            <a href="{% url 'processing_node' node.id %}"><img src="/static/app/img/ExistingNode.png" alt="Existing Node" style="max-width: 18px;"> {{node}}</a>
                         </li>
                         {% endfor %}
                         {% if add_nodes %}
                         <li>
-                            <a href="{% url 'admin:nodeodm_processingnode_add' %}"><span class="fa fa-plus-circle"></span> {% trans 'Add New' %}</a>
+                            <a href="{% url 'admin:nodeodm_processingnode_add' %}"><img src="/static/app/img/AddNode.png" alt="Add New" style="max-width: 18px;"> {% trans 'Add New' %}</a>
                         </li>
                         {% endif %}
                     </ul>
                 </li>
                 {% endif %}{% if user.is_staff %}
                 <li>
-                    <a href="#"><img src="/static/app/img/Administration.png" alt="Administration" class="nav-icon"> {% trans 'Administration' %}</a>
+                    <a href="#"><img src="/static/app/img/Administration.png" alt="Administration" class="nav-icon"> {% trans 'Administration' %}
+                        <span class="fa fa-chevron-down" style="font-size: 0.8em; margin-left: 6px; vertical-align: middle;"></span>
+                    </a>
                     <ul class="nav nav-second-level">
                         {% is_single_user_mode as hide_users %}
                         {% if not hide_users %}
                         <li class="{% if request.path == '/admin/auth/user/' %}active{% endif %}">
-                            <a href="/admin/auth/user/"><i class="fa fa-user fa-fw"></i> {% trans 'Accounts' %}</a>
+                            <a href="/admin/auth/user/"><img src="/static/app/img/Accounts.png" alt="Accounts" style="max-width: 18px;"> {% trans 'Accounts' %}</a>
                         </li>
                         <li class="{% if request.path == '/admin/auth/group/' %}active{% endif %}">
-                            <a href="/admin/auth/group/"><i class="fa fa-users fa-fw"></i> {% trans 'Groups' %}</a>
+                            <a href="/admin/auth/group/"><img src="/static/app/img/Groups.png" alt="Groups" style="max-width: 18px;"> {% trans 'Groups' %}</a>
                         </li>
                         {% endif %}
-                        <li class="{% if request.path == admin_app_setting_url %}active{% endif %}">
-                            <a href="{% url 'admin:app_setting_change' SETTINGS.id %}"><i class="fa fa-magic fa-fw"></i> {% trans 'Brand' %}</a>
-                        </li>
-                        <li class="{% if request.path == admin_app_theme_url %}active{% endif %}">
-                            <a href="{% url 'admin:app_theme_change' SETTINGS.theme.id %}"><i class="fa fa-paint-brush fa-fw"></i> {% trans 'Theme' %}</a>
-                        </li>
+
                         <li class="{% if request.path == '/admin/app/plugin/' %}active{% endif %}">
-                            <a href="/admin/app/plugin/"><i class="fa fa-plug fa-fw"></i> {% trans 'Plugins' %}</a>
+                            <a href="/admin/app/plugin/"><img src="/static/app/img/Plugins.png" alt="Plugins" style="max-width: 18px;"> {% trans 'Plugins' %}</a>
                         </li>
                         <li class="{% if request.path == '/admin/app/' %}active{% endif %}">
-                            <a href="/admin/app/"><i class="fa fa-cog fa-fw"></i> {% trans 'Application' %}</a>
+                            <a href="/admin/app/"><img src="/static/app/img/Application.png" alt="Application" style="max-width: 18px;"> {% trans 'Application' %}</a>
                         </li>
                     </ul>
                 </li>

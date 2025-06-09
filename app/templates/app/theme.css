@@ -180,10 +180,11 @@ a, a:hover, a:focus{
 	color: {{ theme_secondary }};
 }
 
+
 /* Button danger */
 .btn-danger, .btn-danger:active, .open>.dropdown-toggle.btn-danger{
-	background-color: {{ theme_button_danger }};
-	border-color: {{ theme_button_danger }};
+	background-color: #F26E6E;
+	border-color: #F26E6E;
 	color: {{ theme_secondary }};
 }
 .btn-danger:hover, .open>.dropdown-toggle.btn-danger:hover,
@@ -192,8 +193,8 @@ a, a:hover, a:focus{
 .btn-danger[disabled]:hover, .open>.dropdown-toggle.btn-danger[disabled]:hover,
 .btn-danger[disabled]:active, .open>.dropdown-toggle.btn-danger[disabled]:active,
 .btn-danger[disabled]:focus, .open>.dropdown-toggle.btn-danger[disabled]:focus{
-	background-color: {% scalebyiv theme_button_danger 0.90 %};
-	border-color: {% scalebyiv theme_button_danger 0.90 %};
+	background-color: #d94e4e;
+	border-color: #d94e4e;
 	color: {{ theme_secondary }};
 }
 

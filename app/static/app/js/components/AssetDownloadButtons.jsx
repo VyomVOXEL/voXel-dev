@@ -76,39 +76,39 @@ class AssetDownloadButtons extends React.Component {
           : ""}
 
           <button type="button" className={"btn btn-sm " + this.props.buttonClass} disabled={this.props.disabled} data-toggle="dropdown">
-            <i className="glyphicon glyphicon-download"></i><span className="hidden-xs hidden-sm">{this.props.showLabel ? " " + _("Download Assets") : ""}</span>
+            <img src="/static/app/img/DownloadAssets.png" style={{maxWidth: '24px'}} alt="Download" /><span className="hidden-xs hidden-sm">{this.props.showLabel ? " " + _("Download Assets") : ""}</span>
           </button>
           {this.props.showLabel ? 
           <button type="button" className={"btn btn-sm dropdown-toggle " + this.props.buttonClass} data-toggle="dropdown" disabled={this.props.disabled}>
-                <span className="caret"></span>
+            <span className="caret"></span>
           </button> : ""}
           <ul className="dropdown-menu">
             {assetDownloads.filter(asset => {
-                return this.props.hideItems.indexOf(asset.asset) === -1;
+            return this.props.hideItems.indexOf(asset.asset) === -1;
             }).map((asset, i) => {
-                if (asset.separator){
-                    return (<li key={i} className="divider"></li>);
-                }else{
-                    let onClick = undefined;
-                    if (asset.exportFormats){
-                        onClick = e => {
-                            e.preventDefault();
-                            this.setState({exportDialogProps: {
-                                asset: asset.exportId(),
-                                exportFormats: asset.exportFormats,
-                                exportParams: asset.exportParams,
-                                assetLabel: asset.label
-                            }});
-                            if (this.props.onModalOpen) this.props.onModalOpen();
-                        }
-                    }
-                    return (<li key={i}>
-                            <a href={asset.downloadUrl(this.props.task.project, this.props.task.id)} onClick={onClick}><i className={asset.icon + " fa-fw"}></i> {asset.label}</a>
-                        </li>);
+            if (asset.separator){
+                return (<li key={i} className="divider"></li>);
+            }else{
+                let onClick = undefined;
+                if (asset.exportFormats){
+                onClick = e => {
+                    e.preventDefault();
+                    this.setState({exportDialogProps: {
+                    asset: asset.exportId(),
+                    exportFormats: asset.exportFormats,
+                    exportParams: asset.exportParams,
+                    assetLabel: asset.label
+                    }});
+                    if (this.props.onModalOpen) this.props.onModalOpen();
                 }
+                }
+                return (<li key={i}>
+                    <a href={asset.downloadUrl(this.props.task.project, this.props.task.id)} onClick={onClick}><i className={asset.icon + " fa-fw"}></i> {asset.label}</a>
+                </li>);
+            }
             })}
             {this.props.hideItems.indexOf("backup.zip") === -1 ? <li>
-                <a href={`/api/projects/${this.props.task.project}/tasks/${this.props.task.id}/backup`}><i className="fa fa-file-download fa-fw"></i> {_("Backup")}</a>
+            <a href={`/api/projects/${this.props.task.project}/tasks/${this.props.task.id}/backup`}><i className="fa fa-file-download fa-fw"></i> {_("Backup")}</a>
             </li> : ""}
           </ul>
         </div>);

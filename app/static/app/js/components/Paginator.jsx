@@ -111,34 +111,7 @@ class Paginator extends React.Component {
 
         let paginator = null;
         let clearSearch = null;
-        let toolbar = (<ul className={"pagination pagination-sm toolbar " + (totalItems == 0 && !searchText ? "hidden " : " ") + (totalItems / itemsPerPage <= 1 ? "no-margin" : "")}>
-            <li className="btn-group" ref={domNode => { this.searchContainer = domNode; }}>
-                <a href="javascript:void(0);" className="dropdown-toggle"
-                        data-toggle-outside 
-                        data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false"
-                        onClick={this.toggleSearch}
-                        title={_("Search")}><i className="fa fa-search"></i></a>
-                <ul className="dropdown-menu dropdown-menu-right search-popup">
-                    <li>
-                        <input type="text" 
-                            ref={(domNode) => { this.searchInput = domNode}}
-                            className="form-control search theme-border-secondary-07" 
-                            placeholder={_("Search names, #tags or @user")}
-                            spellCheck="false"
-                            autoComplete="false"
-                            value={searchText}
-                            onKeyDown={this.handleSearchKeyDown}
-                            onChange={this.handleSearchChange} />
-                        <button onClick={this.search} className="btn btn-sm btn-default"><i className="fa fa-search"></i></button>
-                    </li>
-                </ul>
-            </li>
-            <li className="btn-group">
-                <a href="javascript:void(0);" className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="fa fa-sort-alpha-down" title={_("Sort")}></i></a>
-                <SortPanel selected={this.state.sortKey} items={this.sortItems} onChange={this.sortChanged} />
-            </li>
-        </ul>);
+        let toolbar = (<div></div>);
 
         if (this.props.currentSearch){
             let currentSearch = decodeSearch(this.props.currentSearch);

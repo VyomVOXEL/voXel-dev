@@ -500,20 +500,60 @@ class TaskListItem extends React.Component {
 
       if (showAssetButtons){
         if (task.available_assets.indexOf("orthophoto.tif") !== -1 || task.available_assets.indexOf("dsm.tif") !== -1){
-          addActionButton(" " + _("View Map"), "btn-primary", "fa fa-globe", () => {
-            location.href = `/map/project/${task.project}/task/${task.id}/`;
-          });
+          addActionButton(
+        <React.Fragment>
+          <img 
+          src="/static/app/img/ViewMap.png" 
+          alt="" // Decorative, as button text will provide context
+          style={{ maxWidth: '24px', height: 'auto', verticalAlign: 'middle', marginRight: '5px', marginBottom: '2px', marginLeft: '-6px' }} 
+          />
+          {_("View Map")}
+        </React.Fragment>, // Label content, including the image
+        "btn-primary",        // Button class
+        "",                   // Empty string for Font Awesome icon class, as we're using an img tag
+        () => {               // onClick action
+          location.href = `/map/project/${task.project}/task/${task.id}/`;
+        }
+          );
         }else{
           showOrthophotoMissingWarning = task.available_assets.indexOf("orthophoto.tif") === -1;
         }
 
-        addActionButton(" " + _("View 3D Model"), "btn-primary", "fa fa-cube", () => {
-          location.href = `/3d/project/${task.project}/task/${task.id}/`;
-        });
+        addActionButton(
+          <React.Fragment>
+        <img 
+          src="/static/app/img/View3DModel.png" 
+          alt="" // Decorative
+          style={{ maxWidth: '24px', height: 'auto', verticalAlign: 'middle', marginRight: '5px', marginBottom: '2px', marginLeft: '-8px' }} 
+        />
+        {_("View 3D Model")}
+          </React.Fragment>, 
+          "btn-primary", 
+          "", // No Font Awesome icon needed
+          () => {
+        location.href = `/3d/project/${task.project}/task/${task.id}/`;
+          }
+        );
+      }
+
+      if (task.processing_node){
+        addActionButton(
+          <React.Fragment>
+        <img 
+          src="/static/app/img/ViewLog.png" 
+          alt="" // Decorative
+          style={{ maxWidth: '24px', height: 'auto', verticalAlign: 'middle', marginRight: '5px', marginLeft: '-8px' }} 
+        />
+        {this.state.view === "console" ? _("Hide Log") : _("View Log")}
+          </React.Fragment>,
+          "btn-primary",
+          "", // No Font Awesome icon needed
+          this.setView(this.state.view === "console" ? "basic" : "console")
+        );
       }
 
       if (editable || (!task.processing_node)){
-        addActionButton(_("Edit"), "btn-primary pull-right edit-button", "glyphicon glyphicon-pencil", () => {
+        addActionButton(_("Edit"), "btn-primary edit-button", "glyphicon glyphicon-pencil", () => {
           this.startEditing();
         }, {
           className: "inline"
@@ -532,21 +572,64 @@ class TaskListItem extends React.Component {
             !task.compacted){
           // By default restart reruns every pipeline
           // step from the beginning
-          const rerunFrom = task.can_rerun_from.length > 1 ?
-                              task.can_rerun_from[1] :
-                              null;
+            const rerunFrom = task.can_rerun_from.length > 1 ?
+                      task.can_rerun_from[1] :
+                      null;
 
-          addActionButton(_("Restart"), "btn-primary", "glyphicon glyphicon-repeat", this.genRestartAction(rerunFrom, {confirm: _("Are you sure you want to restart this task?")}), {
-            subItems: this.getRestartSubmenuItems()
-          });
-      }
-
-      if (this.props.hasPermission("delete")){
-          addActionButton(_("Delete"), "btn-danger", "fa fa-trash fa-fw", this.genActionApiCall("remove", {
+            addActionButton(
+              <React.Fragment>
+              <img 
+                src="/static/app/img/Restart.png" 
+                alt="" // Decorative
+                style={{ maxWidth: '24px', height: 'auto', verticalAlign: 'middle', marginRight: '-2px', marginLeft: '-6px' }} 
+              />
+              {_("Restart")}
+              </React.Fragment>, 
+              "btn-primary", 
+              "", // No Font Awesome icon needed
+              this.genRestartAction(rerunFrom, {confirm: _("Are you sure you want to restart this task?")}), 
+              {
+              subItems: this.getRestartSubmenuItems()
+              }
+            );
+          }
+            if (this.props.hasPermission("delete")){
+            addActionButton(
+            _(""),
+            "",
+            "",
+            this.genActionApiCall("remove", {
             confirm: _("All information related to this task, including images, maps and models will be deleted. Continue?"),
             defaultError: _("Cannot delete task.")
-          }));
-      }
+            }),
+            {
+            className: "inline",
+            customIcon: (
+            <span
+            style={{
+            background: "#F26E6E",
+            display: "inline-block",
+            width: 48,
+            height: 48,
+            textAlign: "center",
+            verticalAlign: "middle",
+            borderRadius: "50%",
+            outline: "none",
+            userSelect: "none",
+            position: "absolute",
+            right: 0,
+            bottom: 0,
+            transform: "none"
+            }}
+            tabIndex={-1}
+            onMouseDown={e => e.preventDefault()}
+            >
+            <img src="/static/app/img/Delete.png" alt={_("Delete")} style={{ width: 24, height: "auto", marginTop: 12, pointerEvents: "none" }} />
+            </span>
+            )
+            }
+            );
+          }
 
       actionButtons = (<div className="action-buttons">
             {showAssetButtons ?
@@ -556,10 +639,19 @@ class TaskListItem extends React.Component {
               const subItems = button.options.subItems || [];
               const className = button.options.className || "";
 
-              let buttonHtml = (<button type="button" className={"btn btn-sm " + button.className} onClick={button.onClick} disabled={disabled}>
-                                <i className={button.icon}></i>
-                                <span className="hidden-xs">{button.label}</span>
-                            </button>);
+              let buttonHtml;
+              if (button.options && button.options.customIcon) {
+                buttonHtml = (
+                  <button type="button" className={"btn btn-sm " + button.className} onClick={button.onClick} disabled={disabled} style={{padding: 0, border: 'none', background: 'none'}}>
+                    {button.options.customIcon}
+                  </button>
+                );
+              } else {
+                buttonHtml = (<button type="button" className={"btn btn-sm " + button.className} onClick={button.onClick} disabled={disabled}>
+                                  <i className={button.icon}></i>
+                                  <span className="hidden-xs">{button.label}</span>
+                              </button>);
+              }
               if (subItems.length > 0){
                   // The button expands sub items
                   buttonHtml = (<button type="button" className={"btn btn-sm " + button.className} data-toggle="dropdown" disabled={disabled}>
@@ -569,7 +661,7 @@ class TaskListItem extends React.Component {
               }
 
               return (
-                  <div key={button.label} className={"inline-block " +
+                  <div key={button.label || button.icon} className={"inline-block " +
                                   (subItems.length > 0 ? "btn-group" : "") + " " +
                                   className}>
                     {buttonHtml}
@@ -593,101 +685,97 @@ class TaskListItem extends React.Component {
       expanded = (
         <div className="expanded-panel">
           <div className="row">
-            <div className="col-md-12 no-padding">
-              <div className="col-md-9 col-sm-10 no-padding">
-                <table className="table table-condensed info-table">
-                  <tbody>
-                    <tr>
-                      <td><strong>{_("Created on:")}</strong></td>
-                      <td>{(new Date(task.created_at)).toLocaleString()}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>{_("Processing Node:")}</strong></td>
-                      <td>{task.processing_node_name || "-"} ({task.auto_processing_node ? _("auto") : _("manual")})</td>
-                    </tr>
-                    {Array.isArray(task.options) &&
-                    <tr>
-                      <td><strong>{_("Options:")}</strong></td>
-                      <td>{this.optionsToList(task.options)}</td>
-                    </tr>}
-                    {stats && stats.gsd && 
-                    <tr>
-                      <td><strong>{_("Average GSD:")}</strong></td>
-                      <td>{parseFloat(stats.gsd.toFixed(2)).toLocaleString()} cm</td>
-                    </tr>}
-                    {stats && stats.area &&
-                    <tr>
-                      <td><strong>{_("Area:")}</strong></td>
-                      <td>{parseFloat(stats.area.toFixed(2)).toLocaleString()} m&sup2;</td>
-                    </tr>}
-                    {stats && stats.pointcloud && stats.pointcloud.points &&
-                    <tr>
-                      <td><strong>{_("Reconstructed Points:")}</strong></td>
-                      <td>{stats.pointcloud.points.toLocaleString()}</td>
-                    </tr>}
-                    {stats && stats.spatial_refs && stats.spatial_refs.length &&
-                    <tr>
-                      <td><strong>{_("Spatial Reference:")}</strong></td>
-                      <td>{this.spatialRefsToHuman(stats.spatial_refs)}</td>
-                    </tr>}
-                    {task.size > 0 && 
-                    <tr>
-                      <td><strong>{_("Disk Usage:")}</strong></td>
-                      <td>{Utils.bytesToSize(task.size * 1024 * 1024)}</td>
-                    </tr>}
-                    <tr>
-                      <td><strong>{_("Task ID:")}</strong></td>
-                      <td>{task.id}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>{_("Task Output:")}</strong></td>
-                        <td><div className="btn-group btn-toggle"> 
-                          <button onClick={this.setView("console")} className={"btn btn-xs " + (this.state.view === "basic" ? "btn-default" : "btn-primary")}>{_("On")}</button>
-                          <button onClick={this.setView("basic")} className={"btn btn-xs " + (this.state.view === "console" ? "btn-default" : "btn-primary")}>{_("Off")}</button>
-                        </div></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              {!this.state.thumbLoadFailed && task.status === statusCodes.COMPLETED ? 
-              <div className="col-md-3 col-sm-2 text-center">
-                <a href={`/map/project/${task.project}/task/${task.id}/`}>
-                  <img onError={this.handleThumbError} className="task-thumbnail" src={this.thumbnailUrl()} alt={_("Thumbnail")}/>
-                </a>
-              </div> : ""}
-              
-              {this.state.view === 'console' ?
-                <Console
-                    className="floatfix"
-                    source={this.consoleOutputUrl}
-                    refreshInterval={this.shouldRefresh() ? 3000 : undefined}
-                    autoscroll={true}
-                    height={200}
-                    ref={domNode => this.console = domNode}
-                    onAddLines={this.checkForCommonErrors}
-                    showConsoleButtons={true}
-                    maximumLines={500}
-                    /> : ""}
+        <div className="col-md-12 no-padding">
+          <div className="col-md-9 col-sm-10 no-padding">
+        <table className="table table-condensed info-table">
+          <tbody>
+        <tr>
+          <td><strong>{_("Created on:")}</strong></td>
+          <td>{(new Date(task.created_at)).toLocaleString()}</td>
+        </tr>
+        <tr>
+          <td><strong>{_("Processing Node:")}</strong></td>
+          <td>{task.processing_node_name || "-"} ({task.auto_processing_node ? _("auto") : _("manual")})</td>
+        </tr>
+        {Array.isArray(task.options) &&
+        <tr>
+          <td><strong>{_("Options:")}</strong></td>
+          <td>{this.optionsToList(task.options)}</td>
+        </tr>}
+        {stats && stats.gsd && 
+        <tr>
+          <td><strong>{_("Average GSD:")}</strong></td>
+          <td>{parseFloat(stats.gsd.toFixed(2)).toLocaleString()} cm</td>
+        </tr>}
+        {stats && stats.area &&
+        <tr>
+          <td><strong>{_("Area:")}</strong></td>
+          <td>{parseFloat(stats.area.toFixed(2)).toLocaleString()} m&sup2;</td>
+        </tr>}
+        {stats && stats.pointcloud && stats.pointcloud.points &&
+        <tr>
+          <td><strong>{_("Reconstructed Points:")}</strong></td>
+          <td>{stats.pointcloud.points.toLocaleString()}</td>
+        </tr>}
+        {stats && stats.spatial_refs && stats.spatial_refs.length &&
+        <tr>
+          <td><strong>{_("Spatial Reference:")}</strong></td>
+          <td>{this.spatialRefsToHuman(stats.spatial_refs)}</td>
+        </tr>}
+        {task.size > 0 && 
+        <tr>
+          <td><strong>{_("Disk Usage:")}</strong></td>
+          <td>{Utils.bytesToSize(task.size * 1024 * 1024)}</td>
+        </tr>}
+        <tr>
+          <td><strong>{_("Task ID:")}</strong></td>
+          <td>{task.id}</td>
+        </tr>
+        <tr>
 
-              {showOrthophotoMissingWarning ?
-              <div className="task-warning"><i className="fa fa-exclamation-triangle"></i> <span>{_("An orthophoto could not be generated. To generate one, make sure GPS information is embedded in the EXIF tags of your images, or use a Ground Control Points (GCP) file.")}</span></div> : ""}
+        </tr>
+          </tbody>
+        </table>
+          </div>
+          {!this.state.thumbLoadFailed && task.status === statusCodes.COMPLETED ? 
+          <div className="col-md-3 col-sm-2 text-center">
+        <a href={`/map/project/${task.project}/task/${task.id}/`}>
+          <img onError={this.handleThumbError} className="task-thumbnail" src={this.thumbnailUrl()} alt={_("Thumbnail")}/>
+        </a>
+          </div> : ""}
+          
+          {this.state.view === 'console' ?
+        <Console
+        className="floatfix"
+        source={this.consoleOutputUrl}
+        refreshInterval={this.shouldRefresh() ? 3000 : undefined}
+        autoscroll={true}
+        height={200}
+        ref={domNode => this.console = domNode}
+        onAddLines={this.checkForCommonErrors}
+        showConsoleButtons={true}
+        maximumLines={500}
+        /> : ""}
 
-              {showMemoryErrorWarning ?
-              <div className="task-warning"><i className="fa fa-support"></i> <Trans params={{ memlink: `<a href="${memoryErrorLink}" target='_blank'>${_("enough RAM allocated")}</a>`, cloudlink: `<a href='https://webodm.net' target='_blank'>${_("cloud processing node")}</a>` }}>{_("It looks like your processing node ran out of memory. If you are using docker, make sure that your docker environment has %(memlink)s. Alternatively, make sure you have enough physical RAM, reduce the number of images, make your images smaller, or reduce the max-concurrency parameter from the task's options. You can also try to use a %(cloudlink)s.")}</Trans></div> : ""}
+          {showOrthophotoMissingWarning ?
+          <div className="task-warning"><i className="fa fa-exclamation-triangle"></i> <span>{_("An orthophoto could not be generated. To generate one, make sure GPS information is embedded in the EXIF tags of your images, or use a Ground Control Points (GCP) file.")}</span></div> : ""}
 
-              {showTaskWarning ?
-              <div className="task-warning"><i className="fa fa-support"></i> <span dangerouslySetInnerHTML={{__html: this.state.friendlyTaskError}} /></div> : ""}
+          {showMemoryErrorWarning ?
+          <div className="task-warning"><i className="fa fa-support"></i> <Trans params={{ memlink: `<a href="${memoryErrorLink}" target='_blank'>${_("enough RAM allocated")}</a>`, cloudlink: `<a href='https://webodm.net' target='_blank'>${_("cloud processing node")}</a>` }}>{_("It looks like your processing node ran out of memory. If you are using docker, make sure that your docker environment has %(memlink)s. Alternatively, make sure you have enough physical RAM, reduce the number of images, make your images smaller, or reduce the max-concurrency parameter from the task's options. You can also try to use a %(cloudlink)s.")}</Trans></div> : ""}
 
-              {showExitedWithCodeOneHints ?
-              <div className="task-warning"><i className="fa fa-info-circle"></i> <div className="inline">
-                  <Trans params={{link: `<a href="${window.__taskOptionsDocsLink}" target="_blank">${window.__taskOptionsDocsLink.replace("https://", "")}</a>` }}>{_("\"Process exited with code 1\" means that part of the processing failed. Sometimes it's a problem with the dataset, sometimes it can be solved by tweaking the Task Options. Check the documentation at %(link)s")}</Trans>
-                </div>
-              </div>
-              : ""}
-            </div>
+          {showTaskWarning ?
+          <div className="task-warning"><i className="fa fa-support"></i> <span dangerouslySetInnerHTML={{__html: this.state.friendlyTaskError}} /></div> : ""}
+
+          {showExitedWithCodeOneHints ?
+          <div className="task-warning"><i className="fa fa-info-circle"></i> <div className="inline">
+          <Trans params={{link: `<a href="${window.__taskOptionsDocsLink}" target="_blank">${window.__taskOptionsDocsLink.replace("https://", "")}</a>` }}>{_("\"Process exited with code 1\" means that part of the processing failed. Sometimes it's a problem with the dataset, sometimes it can be solved by tweaking the Task Options. Check the documentation at %(link)s")}</Trans>
+        </div>
+          </div>
+          : ""}
+        </div>
           </div>
           <div className="row clearfix">
-            {actionButtons}
+        {actionButtons}
           </div>
           <TaskPluginActionButtons task={task} disabled={disabled} />
         </div>
@@ -804,45 +892,47 @@ class TaskListItem extends React.Component {
 
     return (
       <div className="task-list-item">
-        {this.state.showMoveDialog ? 
-            <MoveTaskDialog 
-                task={task}
-                ref={(domNode) => { this.moveTaskDialog = domNode; }}
-                onHide={() => this.setState({showMoveDialog: false})}
-                saveAction={this.moveTaskAction}
-            />
-        : ""}
-        <div className="row">
-          <div className="col-xs-7 col-sm-6 col-md-5 col-lg-6 name">
-            <i onClick={this.toggleExpanded} className={"clickable far " + (this.state.expanded ? "fa-minus-square" : " fa-plus-square")}></i> <a href="javascript:void(0);" onClick={this.toggleExpanded} className="name-link">{name}</a>
-            {userTags.length > 0 ? 
-              userTags.map((t, i) => <div key={i} className="tag-badge small-badge" onClick={this.handleTagClick(t)}>{t}</div>)
-              : ""}
-          </div>
-          <div className="col-md-1 hidden-xs hidden-sm details">
+      {this.state.showMoveDialog ? 
+      <MoveTaskDialog 
+      task={task}
+      ref={(domNode) => { this.moveTaskDialog = domNode; }}
+      onHide={() => this.setState({showMoveDialog: false})}
+      saveAction={this.moveTaskAction}
+      />
+      : ""}
+      <div className="row">
+        <div className="col-xs-7 col-sm-6 col-md-9 col-lg-9" style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '4px', color: '#A3AED0'}}>
+          <span className="name-link" style={{fontFamily: 'DM Sans', fontSize: '16px'}}>{name}</span>
+          <div style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
+          <span className="details" style={{fontFamily: 'DM Sans', fontSize: '16px'}}>
             <i className="far fa-image"></i> {task.images_count}
-          </div>
-          <div className="col-md-2 hidden-xs hidden-sm details">
+          </span>
+          <span className="details" style={{fontFamily: 'DM Sans', fontSize: '16px'}}>
             <i className="far fa-clock"></i> {this.hoursMinutesSecs(this.state.time)}
-          </div>
-          <div className="col-xs-5 col-sm-6 col-md-4 col-lg-3 actions">
-            {showEditLink ?
-              <a href="javascript:void(0);" onClick={this.startEditing}>{statusLabel}</a>
-              : statusLabel}
-            {taskActions.length > 0 ? 
-                <div className="btn-group">
-                <button disabled={disabled || actionLoading} className="btn task-actions btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i className={"fa " + taskActionsIcon}></i>
-                </button>
-                <ul className="dropdown-menu dropdown-menu-right">
-                    {taskActions}
-                </ul>
-                </div>
-            : ""}
-          </div>
+          </span>
         </div>
-        <ErrorMessage bind={[this, 'actionError']} />
-        {expanded}
+        {userTags.length > 0 ? 
+        userTags.map((t, i) => <span key={i} className="tag-badge small-badge" onClick={this.handleTagClick(t)}>{t}</span>)
+        : ""}
+      </div>
+      <div className="col-xs-5 col-sm-6 col-md-3 col-lg-3 actions">
+      {showEditLink ?
+      <a href="javascript:void(0);" onClick={this.startEditing}>{statusLabel}</a>
+      : statusLabel}
+      {taskActions.length > 0 ? 
+      <div className="btn-group">
+      <button disabled={disabled || actionLoading} className="btn task-actions btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <i className={"fa " + taskActionsIcon}></i>
+      </button>
+      <ul className="dropdown-menu dropdown-menu-right">
+      {taskActions}
+      </ul>
+      </div>
+      : ""}
+      </div>
+      </div>
+      <ErrorMessage bind={[this, 'actionError']} />
+      {expanded}
       </div>
     );
   }

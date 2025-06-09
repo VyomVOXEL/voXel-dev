@@ -619,6 +619,15 @@ class ProjectListItem extends React.Component {
     }
   }
 
+  componentDidMount(){
+    // Set showTaskList to true on page load/reload
+    if (!this.state.showTaskList) {
+      this.setState({ showTaskList: true });
+    }
+  }
+
+
+
   render() {
     const { refreshing, data, filterTags } = this.state;
     const numTasks = data.tasks.length;
@@ -703,15 +712,6 @@ class ProjectListItem extends React.Component {
             {data.description}
           </div>
           <div className="row project-links">
-            {numTasks > 0 ? 
-              <span>
-                <i className='fa fa-tasks'></i>
-                <a href="javascript:void(0);" onClick={this.toggleTaskList}>
-                  {interpolate(_("%(count)s Tasks"), { count: numTasks})} <i className={'fa fa-caret-' + (this.state.showTaskList ? 'down' : 'right')}></i>
-                </a>
-              </span>
-              : ""}
-            
             {this.state.showTaskList && numTasks > 1 ? 
               <div className="task-filters">
                 <div className="btn-group">
@@ -751,19 +751,6 @@ class ProjectListItem extends React.Component {
                   <SortPanel selected="-created_at" items={this.sortItems} onChange={this.sortChanged} />
                 </div>
               </div> : ""}
-
-              {numTasks > 0 ? 
-                [<i key="edit-icon" className='fa fa-globe'></i>
-                ,<a key="edit-text" href="javascript:void(0);" onClick={this.viewMap}>
-                  {_("View Map")}
-                </a>]
-              : ""}
-              
-            {canEdit ? 
-                [<i key="edit-icon" className='far fa-edit'></i>
-                ,<a key="edit-text" href="javascript:void(0);" onClick={this.handleEditProject}> {_("Edit")}
-                </a>]
-            : ""}
 
             {!canEdit && !data.owned ? 
               [<i key="edit-icon" className='far fa-eye-slash'></i>
