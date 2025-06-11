@@ -356,7 +356,7 @@ class ProjectListItem extends React.Component {
   }
 
   toggleTaskList(){
-    const showTaskList = true; // Always keep tasks opened
+    const showTaskList = !this.state.showTaskList;
 
     this.historyNav.toggleQSListItem("project_task_open", this.state.data.id, showTaskList);
     
@@ -705,14 +705,6 @@ class ProjectListItem extends React.Component {
           </div>
           <div className="row project-links">
 
-            {/*numTasks > 0 ? 
-              <span>
-                <i className='fa fa-tasks'></i>
-                <a href="javascript:void(0);" onClick={this.toggleTaskList}>
-                  {interpolate(_("%(count)s Tasks"), { count: numTasks})} <i className={'fa fa-caret-' + (this.state.showTaskList ? 'down' : 'right')}></i>
-                </a>
-              </span>
-              : ""*/}
             
             {this.state.showTaskList && numTasks > 1 ? 
               <div className="task-filters">
@@ -753,7 +745,6 @@ class ProjectListItem extends React.Component {
                   <SortPanel selected="-created_at" items={this.sortItems} onChange={this.sortChanged} />
                 </div>
               </div> : ""}
-              
 
             {!canEdit && !data.owned ? 
               [<i key="edit-icon" className='far fa-eye-slash'></i>
