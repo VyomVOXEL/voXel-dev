@@ -355,7 +355,26 @@ class ProjectListItem extends React.Component {
     }
   }
 
+
   toggleTaskList(){
+    // Call this function on page load to ensure tasks are always shown
+    if (!this.state.showTaskList) {
+      const showTaskList = true; // Always keep tasks opened
+
+      this.historyNav.toggleQSListItem("project_task_open", this.state.data.id, showTaskList);
+      
+      this.setState({
+        showTaskList: showTaskList
+      });
+    }
+  }
+
+  componentDidMount(){
+    // Call toggleTaskList to show tasks when component mounts
+    this.toggleTaskList();
+    
+    Dropzone.autoDiscover = false;
+    // ... rest of existing componentDidMount code
     const showTaskList = true; // Always keep tasks opened
 
     this.historyNav.toggleQSListItem("project_task_open", this.state.data.id, showTaskList);
