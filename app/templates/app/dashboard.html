@@ -2,55 +2,119 @@
 {% load i18n %}
 {% load settings %}
 
-
 {% block content %}
 
-	{% if no_processingnodes %}
-		{% include "quota.html" %}
-
-		<h3>{% trans 'Welcome!' %} ☺</h3>
-		{% trans 'Add a Processing Node' as add_processing_node %}
-		{% with nodeodm_link='<a href="https://github.com/OpenDroneMap/NodeODM" target="_blank">NodeODM</a>' api_link='<a href="https://github.com/OpenDroneMap/NodeODM/blob/master/docs/index.adoc" target="_blank">API</a>' %}
-			<p>
-			{% blocktrans %}To get started, "{{ add_processing_node }}". A processing node is a computer running an instance of {{ nodeodm_link }} or some other software implementing this {{ api_link }}.{% endblocktrans %}
-			</p>
-		{% endwith %}
-		<button class="btn btn-primary" onclick="location.href='{% url "admin:nodeodm_processingnode_add" %}';"><i class="fa fa-plus-circle"></i> {{ add_processing_node }}</button>
-		
-	{% else %}
-		{% include "quota.html" %}
-
-		{% if no_tasks and onboarding %}
-			{% trans 'Select Images and GCP' as upload_images %}
-
-		{% endif %}
-	
-
-		<div id="dashboard-app" data-dashboard
-	
-			{% for key, value in params %}
-				data-{{key}}="{{value}}"
-			{% endfor %}
-		>
-			<div id="dashboard-placeholder" style="height: 100%">
-				<div style="display: flex; margin-top: 4px">
-					<div style="width: 90%"></div>
-					<div class="placeholder-item border shimmer" style="width: 10%; height: 34px; margin-right: 4px;"></div>
-				</div>
-				<div style="display: flex; margin-top: 4px">
-					<div style="width: 95%"></div>
-					<div class="placeholder-item border shimmer" style="width: 5%; height: 28px; margin-right: 4px;"></div>
-				</div>
-			
-				<div class="placeholder-item pulse border shimmer" style="height: 100px; margin-top: 16px; width: 100%;"></div>
-				<div class="placeholder-item pulse border shimmer" style="height: 100px; margin-top: 16px; width: 100%;"></div>
-				<div class="placeholder-item pulse border shimmer" style="height: 100px; margin-top: 16px; width: 100%;"></div>
+    {% if no_processingnodes %}
+        <style>
+            body {
+                background: #f3f6fa;
+                margin: 0;
+                font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+            }
+            .centered-container {
+                min-height: 80vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .processing-node-box {
+                background: #f7f9fb;
+                border: 2px dashed #3b82f6;
+                border-radius: 16px;
+                box-shadow: 0 2px 12px rgba(30, 64, 175, 0.06);
+                padding: 48px 32px;
+                max-width: 700px;
+                width: 100%;
+                text-align: center;
+                margin: 32px auto 0 auto;
+            }
+            .processing-node-box h3 {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: #222c3c;
+                margin-bottom: 10px;
+                margin-top: 0;
+                letter-spacing: 0.01em;
+            }
+            .processing-node-box p {
+                color: #8b98a9;
+                font-size: 1.1rem;
+                margin-bottom: 32px;
+                margin-top: 0;
+            }
+            .add-processing-nodes-button {
+                background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+                color: #fff;
+                font-size: 1.15rem;
+                font-weight: 600;
+                border: none;
+                border-radius: 999px;
+                padding: 14px 36px;
+                cursor: pointer;
+                box-shadow: 0 4px 16px rgba(30, 64, 175, 0.07);
+                transition: background 0.2s, box-shadow 0.2s;
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .add-processing-nodes-button:hover {
+                background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
+                box-shadow: 0 6px 20px rgba(30, 64, 175, 0.13);
+            }
+            .add-processing-nodes-button .fa-plus-circle {
+                font-size: 1.3em;
+            }
+        </style>
+        <div class="centered-container">
+            <div class="processing-node-box">
+                {% include "quota.html" %}
+                <h3>{% trans 'Click “Add a Processing Node” to get started' %}</h3>
+                <p>
+                    {% blocktrans %}A processing node is a computer running software that implements this API{% endblocktrans %}
+                </p>
+                <button class="add-processing-nodes-button" onclick="location.href='{% url "admin:nodeodm_processingnode_add" %}';">
+                    <i class="fa fa-plus-circle"></i>
+                    {% trans 'Add a Processing Node' %}
+                </button>
+            </div>
+			<div style="position: absolute; bottom: 0; padding: 10px;">
+				<p class="text-center copyright-text">© 2025 Vyomchara Pvt. Ltd. All Rights Reserved.</p>
 			</div>
-			
-		</div>
-		
-	{% endif %}
+        </div>
+    {% else %}
+        {% include "quota.html" %}
 
-	{% load render_bundle from webpack_loader %}
-	{% render_bundle 'Dashboard' attrs='async' %}
+        {% if no_tasks and onboarding %}
+            {% trans 'Select Images and GCP' as upload_images %}
+        {% endif %}
+
+        <div id="dashboard-app" data-dashboard
+            {% for key, value in params %}
+                data-{{key}}="{{value}}"
+            {% endfor %}
+        >
+            <div id="dashboard-placeholder" style="height: 100%">
+                <div style="display: flex; margin-top: 4px">
+                    <div style="width: 90%"></div>
+                    <div class="placeholder-item border shimmer" style="width: 10%; height: 34px; margin-right: 4px;"></div>
+                </div>
+                <div style="display: flex; margin-top: 4px">
+                    <div style="width: 95%"></div>
+                    <div class="placeholder-item border shimmer" style="width: 5%; height: 28px; margin-right: 4px;"></div>
+                </div>
+                <div class="placeholder-item pulse border shimmer" style="height: 100px; margin-top: 16px; width: 100%;"></div>
+                <div class="placeholder-item pulse border shimmer" style="height: 100px; margin-top: 16px; width: 100%;"></div>
+                <div class="placeholder-item pulse border shimmer" style="height: 100px; margin-top: 16px; width: 100%;"></div>
+            </div>
+        </div>				
+		
+		<div style="position: absolute; bottom: 0; left: 220px; right: 0; padding: 10px;">
+			<p class="text-center copyright-text">© 2025 Vyomchara Pvt. Ltd. All Rights Reserved.</p>
+		</div>
+
+
+    {% endif %}
+
+    {% load render_bundle from webpack_loader %}
+    {% render_bundle 'Dashboard' attrs='async' %}
 {% endblock %}

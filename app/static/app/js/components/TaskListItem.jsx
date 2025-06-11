@@ -717,11 +717,7 @@ class TaskListItem extends React.Component {
           <td><strong>{_("Reconstructed Points:")}</strong></td>
           <td>{stats.pointcloud.points.toLocaleString()}</td>
         </tr>}
-        {stats && stats.spatial_refs && stats.spatial_refs.length &&
-        <tr>
-          <td><strong>{_("Spatial Reference:")}</strong></td>
-          <td>{this.spatialRefsToHuman(stats.spatial_refs)}</td>
-        </tr>}
+
         {task.size > 0 && 
         <tr>
           <td><strong>{_("Disk Usage:")}</strong></td>

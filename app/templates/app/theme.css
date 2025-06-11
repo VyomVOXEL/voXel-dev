@@ -185,7 +185,24 @@ a, a:hover, a:focus{
 .btn-danger, .btn-danger:active, .open>.dropdown-toggle.btn-danger{
 	background-color: #F26E6E;
 	border-color: #F26E6E;
-	color: {{ theme_secondary }};
+	color: #fff;
+	display: inline-flex;              /* Changed from flex to inline-flex */
+	align-items: center;
+	justify-content: center;           /* Ensures proper centering */
+	border: 1px solid #F26E6E;         /* Correct border property */
+	border-radius: 999px;              /* Fully rounded button */
+	padding: 0 16px;                   /* Adjusted padding for better spacing */
+	height: 34px;                      /* Increased height for better proportions */
+	line-height: 1;                    /* Ensures vertical centering */
+	font-family: 'DM Sans', sans-serif;
+	font-size: 14px;                   /* Slightly increased font size */
+	font-weight: 500;
+	cursor: pointer;
+	box-shadow: none;
+	transition: background 0.2s;
+	margin-right: 8px;                 /* Adds spacing between buttons */
+	vertical-align: middle;            /* Helps with vertical alignment */
+	gap: 8px;                        /* Adds space between icon and text */
 }
 .btn-danger:hover, .open>.dropdown-toggle.btn-danger:hover,
 .btn-danger:active, .open>.dropdown-toggle.btn-danger:active,
@@ -432,3 +449,18 @@ pre.prettyprint:focus,
   color: #6B6C7E;
   font-size: 0.95rem;
 }
+
+.add-processing-nodes-button{
+	display: flex;
+	align-items: center;
+	background: linear-gradient(90deg, #555FC9 0%, #1878FF 100%);
+	color: #fff;
+	border: none;
+	padding: 12px 20px;
+	border-radius: 32px;
+	font-size: 16px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: 0.3s;
+	gap: 8px;
+  }

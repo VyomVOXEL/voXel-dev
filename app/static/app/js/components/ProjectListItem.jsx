@@ -132,6 +132,9 @@ class ProjectListItem extends React.Component {
   }
 
   componentDidMount(){
+    // Call toggleTaskList to show tasks when component mounts
+    this.toggleTaskList();
+    
     Dropzone.autoDiscover = false;
 
     if (this.hasPermission("add")){
@@ -355,7 +358,6 @@ class ProjectListItem extends React.Component {
     }
   }
 
-
   toggleTaskList(){
     // Call this function on page load to ensure tasks are always shown
     if (!this.state.showTaskList) {
@@ -367,21 +369,6 @@ class ProjectListItem extends React.Component {
         showTaskList: showTaskList
       });
     }
-  }
-
-  componentDidMount(){
-    // Call toggleTaskList to show tasks when component mounts
-    this.toggleTaskList();
-    
-    Dropzone.autoDiscover = false;
-    // ... rest of existing componentDidMount code
-    const showTaskList = true; // Always keep tasks opened
-
-    this.historyNav.toggleQSListItem("project_task_open", this.state.data.id, showTaskList);
-    
-    this.setState({
-      showTaskList: showTaskList
-    });
   }
 
   closeUploadError(){
@@ -648,13 +635,13 @@ class ProjectListItem extends React.Component {
 
     return (
       <li className={"project-list-item list-group-item " + (refreshing ? "refreshing" : "")}
-         href="javascript:void(0);"
-         ref={this.setRef("dropzone")}
-         >
-        
-        {canEdit ? 
-            <EditProjectDialog 
-            ref={(domNode) => { this.editProjectDialog = domNode; }}
+       href="javascript:void(0);"
+       ref={this.setRef("dropzone")}
+       >
+      
+      {canEdit ? 
+        <EditProjectDialog 
+            ref={this.setRef("editProjectDialog")}
             title={_("Edit Project")}
             saveLabel={_("Save Changes")}
             savingLabel={_("Saving changes...")}
@@ -670,80 +657,99 @@ class ProjectListItem extends React.Component {
             showPermissions={this.hasPermission("change")}
             deleteAction={this.hasPermission("delete") ? this.handleDelete : undefined}
             />
-        : ""}
+          : ""}
 
-<div className="row no-margin">
-              <ErrorMessage bind={[this, 'error']} />
-              <div className="project-buttons">
-              {this.hasPermission("add") ? 
+        <div className="row no-margin">
+            <ErrorMessage bind={[this, 'error']} />
+            <div className="project-buttons" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {this.hasPermission("add") ? 
 
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <React.Fragment>
 
-                <div className={"asset-upload-buttons" + (this.state.upload.uploading ? "hide" : "")}>
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-sm"
-                    onClick={this.handleUpload}
-                    ref={this.setRef("uploadButton")}
-                  >
-                    <i className="glyphicon glyphicon-upload"></i>
-                    <span className="hidden-xs">{_("Select Images and GCP")}</span>
-                  </button>
-                  {this.state.buttons.map((button, i) => (
-                    <React.Fragment key={i}>{button}</React.Fragment>
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  className="btn btn-primary btn-sm"
-                  onClick={this.handleImportTask}
-                >
-                  <i className="glyphicon glyphicon-import"></i>
-                  <span className="hidden-xs">{_("Import Assets")}</span>
-                </button>
-              </div>
+            <div className={"asset-upload-buttons" + (this.state.upload.uploading ? "hide" : "")}>
+              <button
+              type="button"
+              className="btn btn-primary btn-sm"
+              onClick={this.handleUpload}
+              ref={this.setRef("uploadButton")}
+              >
+              <i className="glyphicon glyphicon-upload"></i>
+              <span className="hidden-xs">{_("Select Images and GCP")}</span>
+              </button>
+              {this.state.buttons.map((button, i) => (
+              <React.Fragment key={i}>{button}</React.Fragment>
+              ))}
 
-              : ""}
+<button
+              type="button"
+              className="btn btn-primary btn-sm"
+              onClick={this.handleImportTask}
+            >
+              <i className="glyphicon glyphicon-import"></i>
+              <span className="hidden-xs">{_("Import Assets")}</span>
+            </button>
+            
+            {this.hasPermission("delete") || data.owned ?
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={this.handleHideProject(deleteWarning, this.handleDelete)}
+            >
+              <i className="glyphicon glyphicon-trash"></i>
+              <span className="hidden-xs">{data.owned ? _("Delete Project") : _("Hide Project")}</span>
+            </button>
+            : ""}
+            
+            </div>
+
+
+            </React.Fragment>
+
+            : ""}
+
+
+
             <button disabled={this.state.upload.error !== ""} 
-                    type="button"
-                    className={"btn btn-danger btn-sm " + (!this.state.upload.uploading ? "hide" : "")} 
-                    onClick={this.handleCancel}>
-              <i className="glyphicon glyphicon-remove-circle"></i>
-              Cancel Upload
+              type="button"
+              className={"btn btn-danger btn-sm " + (!this.state.upload.uploading ? "hide" : "")} 
+              onClick={this.handleCancel}>
+            <i className="glyphicon glyphicon-remove-circle"></i>
+            Cancel Upload
             </button> 
-          </div>
+            </div>
 
-          <div className="project-name">
+            <div className="project-name">
             {data.name}
             {userTags.length > 0 ? 
-              userTags.map((t, i) => <div key={i} className="tag-badge small-badge" onClick={this.handleTagClick(t)}>{t}</div>)
-              : ""}
-          </div>
-          <div className="project-description">
+            userTags.map((t, i) => <div key={i} className="tag-badge small-badge" onClick={this.handleTagClick(t)}>{t}</div>)
+            : ""}
+            </div>
+            <div className="project-description">
             {data.description}
-          </div>
-          <div className="row project-links">
+            </div>
+            <div className="row project-links">
 
             {/*numTasks > 0 ? 
-              <span>
-                <i className='fa fa-tasks'></i>
-                <a href="javascript:void(0);" onClick={this.toggleTaskList}>
-                  {interpolate(_("%(count)s Tasks"), { count: numTasks})} <i className={'fa fa-caret-' + (this.state.showTaskList ? 'down' : 'right')}></i>
-                </a>
-              </span>
-              : ""*/}
-            
-            {this.state.showTaskList && numTasks > 1 ? 
-              <div className="task-filters">
-                <div className="btn-group">
-                  {this.state.selectedTags.length || this.state.filterText !== "" ? 
-                    <a className="quick-clear-filter" href="javascript:void(0)" onClick={this.clearFilter}>×</a>
-                  : ""}
-                  <i className='fa fa-filter'></i>
-                  <a href="javascript:void(0);" onClick={this.onOpenFilter} className="dropdown-toggle" data-toggle-outside data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {_("Filter")}
-                  </a>
-                  <ul className="dropdown-menu dropdown-menu-right filter-dropdown">
+            <span>
+            <i className='fa fa-tasks'></i>
+            <a href="javascript:void(0);" onClick={this.toggleTaskList}>
+              {interpolate(_("%(count)s Tasks"), { count: numTasks})} <i className={'fa fa-caret-' + (this.state.showTaskList ? 'down' : 'right')}></i>
+            </a>
+            </span>
+            : ""*/}
+        
+        {this.state.showTaskList && numTasks > 1 ? 
+          <div className="task-filters">
+          <div className="btn-group">
+            {this.state.selectedTags.length || this.state.filterText !== "" ? 
+            <a className="quick-clear-filter" href="javascript:void(0)" onClick={this.clearFilter}>×</a>
+            : ""}
+            <i className='fa fa-filter'></i>
+            <a href="javascript:void(0);" onClick={this.onOpenFilter} className="dropdown-toggle" data-toggle-outside data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {_("Filter")}
+            </a>
+            <ul className="dropdown-menu dropdown-menu-right filter-dropdown">
+            <li className="filter-text-container"></li>
                   <li className="filter-text-container">
                     <input type="text" className="form-control filter-text theme-border-secondary-07" 
                           value={this.state.filterText}
