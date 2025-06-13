@@ -593,6 +593,8 @@ class TaskListItem extends React.Component {
               }
             );
           }
+
+          {/*
             if (this.props.hasPermission("delete")){
             addActionButton(
             _(""),
@@ -630,6 +632,7 @@ class TaskListItem extends React.Component {
             }
             );
           }
+            */}
 
       actionButtons = (<div className="action-buttons">
             {showAssetButtons ?
@@ -689,44 +692,82 @@ class TaskListItem extends React.Component {
           <div className="col-md-9 col-sm-10 no-padding">
         <table className="table table-condensed info-table">
           <tbody>
-        <tr>
-          <td><strong>{_("Created on:")}</strong></td>
-          <td>{(new Date(task.created_at)).toLocaleString()}</td>
-        </tr>
-        <tr>
-          <td><strong>{_("Processing Node:")}</strong></td>
-          <td>{task.processing_node_name || "-"} ({task.auto_processing_node ? _("auto") : _("manual")})</td>
-        </tr>
-        {Array.isArray(task.options) &&
-        <tr>
-          <td><strong>{_("Options:")}</strong></td>
-          <td>{this.optionsToList(task.options)}</td>
-        </tr>}
-        {stats && stats.gsd && 
-        <tr>
-          <td><strong>{_("Average GSD:")}</strong></td>
-          <td>{parseFloat(stats.gsd.toFixed(2)).toLocaleString()} cm</td>
-        </tr>}
-        {stats && stats.area &&
-        <tr>
-          <td><strong>{_("Area:")}</strong></td>
-          <td>{parseFloat(stats.area.toFixed(2)).toLocaleString()} m&sup2;</td>
-        </tr>}
-        {stats && stats.pointcloud && stats.pointcloud.points &&
-        <tr>
-          <td><strong>{_("Reconstructed Points:")}</strong></td>
-          <td>{stats.pointcloud.points.toLocaleString()}</td>
-        </tr>}
 
-        {task.size > 0 && 
-        <tr>
-          <td><strong>{_("Disk Usage:")}</strong></td>
-          <td>{Utils.bytesToSize(task.size * 1024 * 1024)}</td>
-        </tr>}
-        <tr>
-          <td><strong>{_("Task ID:")}</strong></td>
-          <td>{task.id}</td>
-        </tr>
+          <div className="task-details" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      {/* Created On */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <img
+      src="/static/app/img/Area.png"
+      alt=""
+      style={{ width: '48px', height: '48px' }}
+        />
+        <div>
+      <div style={{ fontWeight: 'bold', fontSize: '16px', color: '#1A2953' }}>
+        {(new Date(task.created_at)).toLocaleString()}
+      </div>
+      <div style={{ color: '#A1A7C4', fontSize: '12px' }}>
+        {_("Created on")}
+      </div>
+        </div>
+      </div>
+
+      {/* Disk Usage */}
+      {task.size > 0 &&
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+      <img
+        src="/static/app/img/DiskUsage.png"
+        alt=""
+        style={{ width: '48px', height: '48px' }}
+      />
+      <div>
+        <div style={{ fontWeight: 'bold', fontSize: '16px', color: '#1A2953' }}>
+          {Utils.bytesToSize(task.size * 1024 * 1024)}
+        </div>
+        <div style={{ color: '#A1A7C4', fontSize: '12px' }}>
+          {_("Disk Usage")}
+        </div>
+      </div>
+        </div>
+      }
+
+      {/* Processing Node */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <img
+      src="/static/app/img/ProcessingNodes.png"
+      alt=""
+      style={{ width: '48px', height: '48px' }}
+        />
+        <div>
+      <div style={{ fontWeight: 'bold', fontSize: '16px', color: '#1A2953' }}>
+        {task.processing_node_name || "-"} ({task.auto_processing_node ? _("auto") : _("manual")})
+      </div>
+      <div style={{ color: '#A1A7C4', fontSize: '12px' }}>
+        {_("Processing Node")}
+      </div>
+        </div>
+      </div>
+
+      {/* Area */}
+      {stats && stats.area &&
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+      <img
+        src="/static/app/img/Area.png"
+        alt=""
+        style={{ width: '48px', height: '48px' }}
+      />
+      <div>
+        <div style={{ fontWeight: 'bold', fontSize: '16px', color: '#1A2953' }}>
+          {parseFloat(stats.area.toFixed(2)).toLocaleString()} m²
+        </div>
+        <div style={{ color: '#A1A7C4', fontSize: '12px' }}>
+          {_("Area")}
+        </div>
+      </div>
+        </div>
+      }
+    </div>
+
+
         <tr>
 
         </tr>
@@ -897,19 +938,19 @@ class TaskListItem extends React.Component {
       />
       : ""}
       <div className="row">
-        <div className="col-xs-7 col-sm-6 col-md-9 col-lg-9" style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '4px', color: '#A3AED0'}}>
-          <span className="name-link" style={{fontFamily: 'DM Sans', fontSize: '16px'}}>{name}</span>
-          <div style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
-          <span className="details" style={{fontFamily: 'DM Sans', fontSize: '16px'}}>
-            <i className="far fa-image"></i> {task.images_count}
-          </span>
-          <span className="details" style={{fontFamily: 'DM Sans', fontSize: '16px'}}>
-            <i className="far fa-clock"></i> {this.hoursMinutesSecs(this.state.time)}
-          </span>
-        </div>
-        {userTags.length > 0 ? 
-        userTags.map((t, i) => <span key={i} className="tag-badge small-badge" onClick={this.handleTagClick(t)}>{t}</span>)
-        : ""}
+      <div className="col-xs-7 col-sm-6 col-md-9 col-lg-9" style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '4px', color: '#A3AED0'}}>
+      <span className="name-link" style={{fontFamily: 'DM Sans', fontSize: '16px'}}>{name}</span>
+      <div style={{display: 'flex', alignItems: 'center', gap: '32px'}}>
+      <span className="details" style={{fontFamily: 'DM Sans', fontSize: '16px'}}>
+      <img src="/static/app/img/Image.png" alt="" style={{ width: '16px', height: '16px', marginRight: '4px', marginBottom: '4px' }} /> {task.images_count}
+      </span>
+      <span className="details" style={{fontFamily: 'DM Sans', fontSize: '16px'}}>
+      <img src="/static/app/img/Clock.png" alt="" style={{ width: '16px', height: '16px', marginRight: '4px', marginBottom: '4px' }} /> {this.hoursMinutesSecs(this.state.time)}
+      </span>
+      </div>
+      {userTags.length > 0 ? 
+      userTags.map((t, i) => <span key={i} className="tag-badge small-badge" onClick={this.handleTagClick(t)}>{t}</span>)
+      : ""}
       </div>
       <div className="col-xs-5 col-sm-6 col-md-3 col-lg-3 actions">
       {showEditLink ?
@@ -918,7 +959,6 @@ class TaskListItem extends React.Component {
       {taskActions.length > 0 ? 
       <div className="btn-group">
       <button disabled={disabled || actionLoading} className="btn task-actions btn-secondary btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <i className={"fa " + taskActionsIcon}></i>
       </button>
       <ul className="dropdown-menu dropdown-menu-right">
       {taskActions}

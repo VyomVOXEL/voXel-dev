@@ -1,0 +1,173 @@
+#dashboard-app .row.no-margin {
+  margin: 0;
+}
+#dashboard-app .progress {
+  height: 20px;
+  margin-bottom: 4px;
+}
+#dashboard-app .progress .progress-bar {
+  font-size: 14px;
+  line-height: 18px;
+}
+#dashboard-app .add-button,
+#dashboard-app .list-group {
+  margin-bottom: 8px;
+}
+#dashboard-app .dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+#dashboard-app .welcome-message {
+  font-size: 24px;
+  font-weight: 600;
+  color: #222;
+}
+#dashboard-app .add-project-button {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, #555FC9 0%, #1878FF 100%);
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 32px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#dashboard-app .add-project-button:hover {
+  opacity: 0.9;
+}
+#dashboard-app .add-project-button i {
+  margin-right: 8px;
+}
+#dashboard-app .project-list-wrapper {
+  background: #fff;
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  margin-right: 32px;
+}
+.edit-project-dialog .name-fields {
+  display: flex;
+}
+.edit-project-dialog .name-fields .btn.toggle-tags {
+  margin-top: 0;
+  margin-bottom: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.edit-project-dialog .name-fields input[type=text] {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.form-dialog .fa-spin {
+  margin-right: 4px;
+}
+.edit-permissions-panel .perms-loading {
+  margin-top: 14px;
+}
+.edit-permissions-panel .permission {
+  position: relative;
+  margin-bottom: 4px;
+  display: flex;
+}
+.edit-permissions-panel .user-indicator {
+  position: absolute;
+  left: 12px;
+  top: 16px;
+}
+.edit-permissions-panel .remove {
+  position: relative;
+  top: 12px;
+}
+.edit-permissions-panel .remove a {
+  position: absolute;
+  left: -36px;
+  top: -12px;
+  padding: 12px;
+}
+.edit-permissions-panel .remove a:hover {
+  cursor: pointer;
+}
+.edit-permissions-panel .username {
+  padding-left: 30px;
+}
+.edit-permissions-panel .username-container {
+  flex-grow: 0.66;
+  position: relative;
+}
+.edit-permissions-panel .username-container .autocomplete {
+  left: 0;
+  top: 44px;
+  z-index: 2;
+  border-width: 1px;
+  border-style: solid;
+  width: 100%;
+  position: absolute;
+  border-radius: 2px;
+  max-height: 240px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.edit-permissions-panel .username-container .autocomplete .ac-entry {
+  padding: 10px 15px 10px 15px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+.edit-permissions-panel .username-container .autocomplete .ac-entry:hover {
+  cursor: pointer;
+}
+.edit-permissions-panel .username-container .autocomplete .ac-entry:last-child {
+  border: none;
+}
+.edit-permissions-panel .username-container .autocomplete .ac-email {
+  opacity: 0.8;
+}
+.edit-permissions-panel .role-container {
+  flex-grow: 0.33;
+}
+.edit-permissions-panel .add-new {
+  margin-top: 4px;
+}
+.tags-field {
+  height: auto;
+  min-height: 45px;
+  padding-bottom: 2px;
+}
+.tags-field:hover {
+  cursor: text;
+}
+.tags-field .tag-badge {
+  display: inline-block;
+  width: auto;
+  padding-left: 6px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: -2px;
+  margin-right: 4px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+}
+.tags-field .tag-badge:hover {
+  cursor: grab;
+}
+.tags-field .tag-badge a {
+  margin-top: 2px;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+.tags-field .tag-badge a:hover, .tags-field .tag-badge a:focus, .tags-field .tag-badge a:active {
+  cursor: pointer;
+  text-decoration: none !important;
+}
+.tags-field .inputText {
+  display: inline-block;
+  position: fixed;
+  outline: none;
+  border: none;
+  margin-bottom: 10px;
+  min-width: 1px;
+}

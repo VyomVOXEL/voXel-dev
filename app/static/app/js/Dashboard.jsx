@@ -89,7 +89,7 @@ class Dashboard extends React.Component {
       }}
       />
 
-      <main className="project-list-wrapper">
+      <main className="">
       <Route path="/" component={projectList} />
       </main>
       </div>

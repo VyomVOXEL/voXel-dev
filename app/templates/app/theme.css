@@ -13,6 +13,7 @@
 {% theme "success" as theme_success %}
 {% theme "failed" as theme_failed %}
 
+
 /* Primary */
 body,
 ul#side-menu.nav a,
@@ -52,7 +53,7 @@ body,
 .dropdown-menu,
 .theme-secondary
 {
-	background-color: {{ theme_secondary }};
+	background-color: #FFFFFF;
 }
 
 .tooltip > .tooltip-inner{
@@ -262,7 +263,6 @@ select.form-control option[disabled],
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus{
 	background-color: {{ theme_highlight }};
-	color: {{ theme_primary }};
 }
 pre.prettyprint,
 .form-control{

@@ -115,10 +115,8 @@ class ProjectList extends Paginated {
         if (this.state.loading){
             return (<div className="project-list text-center"><i className="fa fa-circle-notch fa-spin fa-2x fa-fw"></i></div>);
         }else{
-            return (<div className="project-list">
-                <ErrorMessage bind={[this, 'error']} />
-                <Paginator {...this.state.pagination} {...this.props}>
-                    <ul key="1" className={"list-group project-list " + (this.state.refreshing ? "refreshing" : "")}>
+            return (
+                    <ul className={"list-group project-list" + (this.state.refreshing ? "refreshing" : "")}>
                         {this.state.projects.map(p => (
                             <ProjectListItem 
                                 ref={(domNode) => { this["projectListItem_" + p.id] = domNode }}
@@ -130,8 +128,7 @@ class ProjectList extends Paginated {
                                 history={this.props.history} /> 
                         ))}
                     </ul>
-                </Paginator>
-            </div>);
+            );
         }
     }
 }
