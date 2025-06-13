@@ -634,53 +634,53 @@ class TaskListItem extends React.Component {
           }
             */}
 
-      actionButtons = (<div className="action-buttons">
-            {showAssetButtons ?
-              <AssetDownloadButtons task={this.state.task} disabled={disabled} />
-            : ""}
-            {actionButtons.map(button => {
-              const subItems = button.options.subItems || [];
-              const className = button.options.className || "";
+      actionButtons = (<div className="action-buttons" style={{display: 'flex', gap: '8px'}}>
+        {showAssetButtons ?
+          <AssetDownloadButtons task={this.state.task} disabled={disabled} />
+        : ""}
+        {actionButtons.map(button => {
+          const subItems = button.options.subItems || [];
+          const className = button.options.className || "";
 
-              let buttonHtml;
-              if (button.options && button.options.customIcon) {
-                buttonHtml = (
-                  <button type="button" className={"btn btn-sm " + button.className} onClick={button.onClick} disabled={disabled} style={{padding: 0, border: 'none', background: 'none'}}>
-                    {button.options.customIcon}
-                  </button>
-                );
-              } else {
-                buttonHtml = (<button type="button" className={"btn btn-sm " + button.className} onClick={button.onClick} disabled={disabled}>
-                                  <i className={button.icon}></i>
-                                  <span className="hidden-xs">{button.label}</span>
-                              </button>);
-              }
-              if (subItems.length > 0){
-                  // The button expands sub items
-                  buttonHtml = (<button type="button" className={"btn btn-sm " + button.className} data-toggle="dropdown" disabled={disabled}>
-                        <i className={button.icon}></i>
-                        {button.label}
-                    </button>);
-              }
+          let buttonHtml;
+          if (button.options && button.options.customIcon) {
+            buttonHtml = (
+          <button type="button" className={"btn btn-sm " + button.className} onClick={button.onClick} disabled={disabled} style={{padding: 0, border: 'none', background: 'none'}}>
+            {button.options.customIcon}
+          </button>
+            );
+          } else {
+            buttonHtml = (<button type="button" className={"btn btn-sm " + button.className} onClick={button.onClick} disabled={disabled}>
+                  <i className={button.icon}></i>
+                  <span className="hidden-xs">{button.label}</span>
+              </button>);
+          }
+          if (subItems.length > 0){
+          // The button expands sub items
+          buttonHtml = (<button type="button" className={"btn btn-sm " + button.className} data-toggle="dropdown" disabled={disabled}>
+            <i className={button.icon}></i>
+            {button.label}
+            </button>);
+          }
 
-              return (
-                  <div key={button.label || button.icon} className={"inline-block " +
-                                  (subItems.length > 0 ? "btn-group" : "") + " " +
-                                  className}>
-                    {buttonHtml}
-                    {subItems.length > 0 &&
-                      [<button key="dropdown-button"
-                              disabled={disabled}
-                              type="button"
-                              className={"btn btn-sm dropdown-toggle "  + button.className}
-                              data-toggle="dropdown"><span className="caret"></span></button>,
-                      <ul key="dropdown-menu" className="dropdown-menu">
-                        {subItems.map(subItem => <li key={subItem.label}>
-                            <a href="javascript:void(0);" onClick={subItem.onClick}><i className={subItem.icon + ' fa-fw '}></i>{subItem.label}</a>
-                          </li>)}
-                      </ul>]}
-                  </div>);
-            })}
+          return (
+          <div key={button.label || button.icon} className={"inline-block " +
+                  (subItems.length > 0 ? "btn-group" : "") + " " +
+                  className}>
+            {buttonHtml}
+            {subItems.length > 0 &&
+              [<button key="dropdown-button"
+              disabled={disabled}
+              type="button"
+              className={"btn btn-sm dropdown-toggle "  + button.className}
+              data-toggle="dropdown"><span className="caret"></span></button>,
+              <ul key="dropdown-menu" className="dropdown-menu">
+            {subItems.map(subItem => <li key={subItem.label}>
+                <a href="javascript:void(0);" onClick={subItem.onClick}><i className={subItem.icon + ' fa-fw '}></i>{subItem.label}</a>
+              </li>)}
+              </ul>]}
+          </div>);
+        })}
           </div>);
 
       const stats = task.statistics;
